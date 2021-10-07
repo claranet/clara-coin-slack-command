@@ -1,0 +1,31 @@
+{
+  "name": "flowing-thanks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node src/index",
+    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^3.21.6",
+    "fastify-formbody": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^27.2.4",
+    "nodemon": "^2.0.13",
+    "standard": "^16.0.3",
+    "tap": "^15.0.10"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "test",
+      "expect"
+    ]
+  }
+}
