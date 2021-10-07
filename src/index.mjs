@@ -1,6 +1,12 @@
 import Fastify from 'fastify'
 import fastifyFormBody from 'fastify-formbody'
 
+import sendHandler from './handlers/send'
+
+const handlers = [
+  sendHandler
+]
+
 const PORT = process.env.PORT || 5000
 
 const fastify = Fastify({
@@ -15,7 +21,19 @@ fastify.get('/', function (request, reply) {
 })
 
 fastify.post('/', function (request, reply) {
-  reply.send(JSON.stringify(request.body))
+  const {
+    text
+  } = request.body
+
+  const userName = request.body.user_name
+
+  const handler = handlers.find(handler => handler.canHandle(userName, text))
+
+  if (handler) {
+    return reply.send(handler.handle(userName, text))
+  }
+
+  reply.send('Scusa non ho capito')
 })
 
 const start = async () => {
