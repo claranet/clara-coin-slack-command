@@ -27,5 +27,8 @@
       "test",
       "expect"
     ]
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
