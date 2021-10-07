@@ -1,6 +1,8 @@
 import Fastify from 'fastify'
 import fastifyFormBody from 'fastify-formbody'
 
+const PORT = process.env.PORT || 5000
+
 const fastify = Fastify({
   logger: true
 })
@@ -16,11 +18,13 @@ fastify.post('/', function (request, reply) {
   reply.send(JSON.stringify(request.body))
 })
 
-// Run the server!
-fastify.listen(3000, function (err, address) {
-  if (err) {
+const start = async () => {
+  try {
+    await fastify.listen(PORT, '0.0.0.0')
+  } catch (err) {
     fastify.log.error(err)
     process.exit(1)
   }
-  // Server is now listening on ${address}
-})
+}
+
+start()
