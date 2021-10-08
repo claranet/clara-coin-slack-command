@@ -44,7 +44,7 @@ const canHandle = (sender, _text) => {
 
 const handle = async (sender, text) => {
   const sendData = sendCommandParser(text)
-  return `Grazie, abbiamo inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}`
+  return `Grazie, hai inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}`
 }
 
 export default {
