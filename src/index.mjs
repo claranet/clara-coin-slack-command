@@ -3,8 +3,10 @@ import fastifyFormBody from 'fastify-formbody'
 
 import sendHandler from './handlers/send'
 import helpHandler from './handlers/help'
+import statusHandler from './handlers/status'
 
 const handlers = [
+  statusHandler,
   helpHandler,
   sendHandler
 ]
@@ -36,7 +38,7 @@ fastify.post('/slack', async (request, reply) => {
     return reply.send(result)
   }
 
-  reply.send('Scusa non ho capito')
+  reply.send('Scusa non ho capito, prova a scrivere `\\coin help` per chiedere aiuto')
 })
 
 const start = async () => {
