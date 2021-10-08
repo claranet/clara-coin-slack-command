@@ -2,8 +2,10 @@ import Fastify from 'fastify'
 import fastifyFormBody from 'fastify-formbody'
 
 import sendHandler from './handlers/send'
+import helpHandler from './handlers/help'
 
 const handlers = [
+  helpHandler,
   sendHandler
 ]
 
