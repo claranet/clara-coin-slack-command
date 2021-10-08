@@ -37,14 +37,14 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: 'Invia dei coin a dei surfer: "\\coin invia [valore] a [surfers] [motivo opzionale]"'
+          text: 'Invia dei coin a dei surfer: `\\coin invia [valore] a [surfers] [motivo opzionale]`'
         }
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: 'Per conoscere il tuo status: "\\coin status"'
+          text: 'Per conoscere il tuo status: `\\coin status`'
         }
       }
     ]
