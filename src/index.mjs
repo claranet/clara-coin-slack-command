@@ -20,7 +20,7 @@ fastify.get('/', function (request, reply) {
   reply.send({ hello: 'world' })
 })
 
-fastify.post('/', async (request, reply) => {
+fastify.post('/slack', async (request, reply) => {
   const {
     text
   } = request.body
