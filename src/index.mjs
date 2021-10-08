@@ -20,7 +20,7 @@ fastify.get('/', function (request, reply) {
   reply.send({ hello: 'world' })
 })
 
-fastify.post('/', function (request, reply) {
+fastify.post('/', async (request, reply) => {
   const {
     text
   } = request.body
@@ -30,7 +30,8 @@ fastify.post('/', function (request, reply) {
   const handler = handlers.find(handler => handler.canHandle(userName, text))
 
   if (handler) {
-    return reply.send(handler.handle(userName, text))
+    const result = await handler.handle(userName, text)
+    return reply.send(result)
   }
 
   reply.send('Scusa non ho capito')

@@ -1,5 +1,17 @@
 import sendCommandParser from './sendCommandParser.mjs'
 
+const VALID_COMMAND_NAMES = [
+  'send',
+  'invia',
+  'invio',
+  'manda'
+]
+
+const VALID_TO = [
+  'to',
+  'a'
+]
+
 const canHandle = (sender, _text) => {
   if (!_text) {
     return false
@@ -15,7 +27,7 @@ const canHandle = (sender, _text) => {
     receiver
   ] = parts
 
-  if (command !== 'send') {
+  if (!VALID_COMMAND_NAMES.includes(command)) {
     return false
   }
 
@@ -23,7 +35,7 @@ const canHandle = (sender, _text) => {
     return false
   }
 
-  if (to !== 'to') {
+  if (!VALID_TO.includes(to)) {
     return false
   }
 
@@ -32,7 +44,7 @@ const canHandle = (sender, _text) => {
 
 const handle = async (sender, text) => {
   const sendData = sendCommandParser(text)
-  return `Grazie, abbiamo inviato ${sendData.value} a ${sendData.receivers.join(', ')}`
+  return `Grazie, abbiamo inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}`
 }
 
 export default {
