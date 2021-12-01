@@ -24,15 +24,31 @@ const canHandle = (sender, _text) => {
   return true
 }
 
+const sentMessage = sent => {
+  const totalSent = Object.values(sent).reduce((acc, val) => acc + val, 0)
+  const formattedSent = Object.entries(sent).map(([name, value]) => `* ${name}: ${value}`).join('\n')
+
+  if (totalSent === 0) {
+    return 'Non hai inviato nessun Flowing Coin.'
+  }
+
+  return `Hai inviato un totale di ${totalSent} Flowing Coin così ripartiti: \n${formattedSent}`
+}
+
+const receivedMessage = received => {
+  const totalReceived = Object.values(received).reduce((acc, val) => acc + val, 0)
+  const formattedReceived = Object.entries(received).map(([name, value]) => `* ${name}: ${value}`).join('\n')
+
+  if (totalReceived === 0) {
+    return 'Non hai ricevuto nessun Flowing Coin.'
+  }
+
+  return `Hai ricevuto un totale di ${totalReceived} Flowing Coin così ripartiti: \n${formattedReceived}`
+}
+
 const handle = async (sender, text) => {
   const sent = await coinRepositoryMjs.sent(sender)
   const received = await coinRepositoryMjs.received(sender)
-
-  const totalSent = Object.values(sent).reduce((acc, val) => acc + val, 0)
-  const totalReceived = Object.values(received).reduce((acc, val) => acc + val, 0)
-
-  const formattedSent = Object.entries(sent).map(([name, value]) => `* ${name}: ${value}`).join('\n')
-  const formattedReceived = Object.entries(received).map(([name, value]) => `* ${name}: ${value}`).join('\n')
 
   return {
     blocks: [
@@ -47,14 +63,14 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `Hai inviato un totale di ${totalSent} Flowing Coin così ripartiti: ${formattedSent}`
+          text: sentMessage(sent)
         }
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `Hai ricevuto un totale di ${totalReceived} Flowing Coin così ripartiti: ${formattedReceived}`
+          text: receivedMessage(received)
         }
       }
     ]
