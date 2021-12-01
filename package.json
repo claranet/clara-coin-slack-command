@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "fastify": "^3.21.6",
-    "fastify-formbody": "^5.1.0"
+    "fastify-formbody": "^5.1.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^27.2.4",
