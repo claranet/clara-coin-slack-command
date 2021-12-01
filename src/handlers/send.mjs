@@ -60,7 +60,9 @@ const handle = async (sender, text) => {
     amount: sendData.value
   })
 
-  return `Grazie, hai inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}`
+  const remaingCoins = TOTAL_COINS - senderCoins - coinsToSend
+
+  return `Grazie, hai inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}. Ti rimangono ${remaingCoins} Flowing Coin.`
 }
 
 export default {
