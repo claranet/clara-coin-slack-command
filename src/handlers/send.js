@@ -1,5 +1,5 @@
-import sendCommandParser from './sendCommandParser.mjs'
-import coinRepository from '../lib/coinRepository.mjs'
+const sendCommandParser = require('./sendCommandParser')
+const coinRepository = require('../lib/coinRepository')
 
 const TOTAL_COINS = 35
 
@@ -68,7 +68,7 @@ const handle = async (sender, text) => {
   }
 }
 
-export default {
+module.exports = {
   canHandle,
   handle
 }

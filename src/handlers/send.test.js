@@ -1,5 +1,5 @@
-import sendHandler from './send.mjs'
-import tap from 'tap'
+const tap = require('tap')
+const sendHandler = require('./send')
 
 const {
   canHandle

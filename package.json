@@ -5,20 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "tap",
-    "start": "node --experimental-modules --es-module-specifier-resolution=node src/index",
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index"
+    "deploy": "serverless deploy"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fastify": "^3.21.6",
-    "fastify-formbody": "^5.1.0",
+    "body-parser-for-serverless": "^1.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^27.2.4",
     "nodemon": "^2.0.13",
+    "serverless": "^2.68.0",
     "standard": "^16.0.3",
     "tap": "^15.0.10"
   },

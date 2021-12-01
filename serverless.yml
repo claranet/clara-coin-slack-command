@@ -1,0 +1,15 @@
+service: flowing-coin-slack-command
+frameworkVersion: '2 || 3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+
+functions:
+  coin:
+    handler: handler.v1
+    events:
+      - httpApi:
+          path: /slack
+          method: post

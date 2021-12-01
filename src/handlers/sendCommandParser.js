@@ -1,4 +1,4 @@
-export default _text => {
+module.exports = _text => {
   const text = _text.toLowerCase()
 
   const parts = text.split(' ')

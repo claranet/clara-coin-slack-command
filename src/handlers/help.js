@@ -55,7 +55,7 @@ const handle = async (sender, text) => {
   }
 }
 
-export default {
+module.exports = {
   canHandle,
   handle
 }

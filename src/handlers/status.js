@@ -1,4 +1,4 @@
-import coinRepositoryMjs from '../lib/coinRepository.mjs'
+const coinRepositoryMjs = require('../lib/coinRepository')
 
 const VALID_COMMAND_NAMES = [
   'status',
@@ -83,7 +83,7 @@ const handle = async (sender, text) => {
   }
 }
 
-export default {
+module.exports = {
   canHandle,
   handle
 }

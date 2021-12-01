@@ -1,5 +1,5 @@
-import sendCommandParser from './sendCommandParser.mjs'
-import tap from 'tap'
+const tap = require('tap')
+const sendCommandParser = require('./sendCommandParser')
 
 tap.test('sendCommandParser should extract receiver and value', t => {
   const message = sendCommandParser('send 1 to @Strazz')
