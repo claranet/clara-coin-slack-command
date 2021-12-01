@@ -19,7 +19,6 @@ const fastify = Fastify({
 
 fastify.register(fastifyFormBody)
 
-// Declare a route
 fastify.get('/', function (request, reply) {
   reply.send({ hello: 'world' })
 })

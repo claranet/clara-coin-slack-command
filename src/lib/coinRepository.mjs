@@ -20,7 +20,7 @@ const create = () => {
   }
 
   const add = ({ from, to, amount = 1 }) => {
-    return Promise.all(toArray(to).map(from => singleAdd({ from, to, amount })))
+    return Promise.all(toArray(to).map(_to => singleAdd({ from, to: _to, amount })))
   }
 
   const countBySender = async from => {
