@@ -35,6 +35,9 @@ const handle = async (sender, text) => {
         }
       },
       {
+        type: 'divider'
+      },
+      {
         type: 'section',
         text: {
           type: 'mrkdwn',

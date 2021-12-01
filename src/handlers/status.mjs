@@ -26,7 +26,7 @@ const canHandle = (sender, _text) => {
 
 const sentMessage = sent => {
   const totalSent = Object.values(sent).reduce((acc, val) => acc + val, 0)
-  const formattedSent = Object.entries(sent).map(([name, value]) => ` * *${name}*: ${value}`).join('\n')
+  const formattedSent = Object.entries(sent).map(([name, value]) => ` - *${name}*: ${value}`).join('\n')
 
   if (totalSent === 0) {
     return 'Non hai inviato nessun Flowing Coin.'
@@ -37,7 +37,7 @@ const sentMessage = sent => {
 
 const receivedMessage = received => {
   const totalReceived = Object.values(received).reduce((acc, val) => acc + val, 0)
-  const formattedReceived = Object.entries(received).map(([name, value]) => ` * *${name}*: ${value}`).join('\n')
+  const formattedReceived = Object.entries(received).map(([name, value]) => ` - *${name}*: ${value}`).join('\n')
 
   if (totalReceived === 0) {
     return 'Non hai ricevuto nessun Flowing Coin.'
@@ -60,11 +60,17 @@ const handle = async (sender, text) => {
         }
       },
       {
+        type: 'divider'
+      },
+      {
         type: 'section',
         text: {
           type: 'mrkdwn',
           text: sentMessage(sent)
         }
+      },
+      {
+        type: 'divider'
       },
       {
         type: 'section',
