@@ -50,8 +50,8 @@ const handle = async (sender, text) => {
 
   const coinsToSend = sendData.value * sendData.receivers.length
   const senderCoins = await coinRepository.countBySender(sender)
-  if (senderCoins + coinsToSend < TOTAL_COINS) {
-    return `Purtroppo non hai abbastanza Flowing Coin per ringraziare ${sendData.receivers.join(', ')}`
+  if (TOTAL_COINS - senderCoins < coinsToSend) {
+    return `Purtroppo non hai abbastanza (${senderCoins}) Flowing Coin per ringraziare ${sendData.receivers.join(', ')}`
   }
 
   await coinRepository.add({
