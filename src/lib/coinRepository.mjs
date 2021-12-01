@@ -27,9 +27,25 @@ const create = () => {
     return coins.filter(coin => coin.from === from).length
   }
 
+  const sent = async from => {
+    return coins.filter(coin => coin.from === from).reduce((acc, coin) => {
+      acc[coin.to] = (acc[coin.to] || 0) + coin.amount
+      return acc
+    }, {})
+  }
+
+  const received = async to => {
+    return coins.filter(coin => coin.to === to).reduce((acc, coin) => {
+      acc[coin.from] = (acc[coin.from] || 0) + coin.amount
+      return acc
+    }, {})
+  }
+
   return {
     add,
-    countBySender
+    countBySender,
+    sent,
+    received
   }
 }
 
