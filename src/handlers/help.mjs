@@ -25,6 +25,7 @@ const canHandle = (sender, _text) => {
 
 const handle = async (sender, text) => {
   return {
+    response_type: 'in_channel',
     blocks: [
       {
         type: 'section',
@@ -37,7 +38,7 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: 'Invia dei coin a dei surfer: `\\coin invia [valore] a [surfers] [motivo opzionale]`'
+          text: 'Invia dei coin a dei surfer: `\\coin invia [valore] a [surfers]`'
         }
       },
       {

@@ -62,7 +62,10 @@ const handle = async (sender, text) => {
 
   const remaingCoins = TOTAL_COINS - senderCoins - coinsToSend
 
-  return `Grazie, hai inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}. Ti rimangono ${remaingCoins} Flowing Coin.`
+  return {
+    response_type: 'in_channel',
+    text: `Grazie, hai inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}. Ti rimangono ${remaingCoins} Flowing Coin.`
+  }
 }
 
 export default {
