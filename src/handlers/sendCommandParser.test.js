@@ -18,3 +18,13 @@ tap.test('sendCommandParser should extract all the receivers', t => {
   })
   t.end()
 })
+
+tap.test('sendCommandParser should extract the message at the end of the command', t => {
+  const message = sendCommandParser('send 1 to @Strazz @Fosco because they are too cool')
+  t.match(message, {
+    value: 1,
+    receivers: ['strazz', 'fosco'],
+    message: 'because they are too cool'
+  })
+  t.end()
+})
