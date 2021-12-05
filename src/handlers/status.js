@@ -49,6 +49,7 @@ const receivedMessage = received => {
 const handle = async (sender, text) => {
   const sent = await coinRepositoryMjs.sent(sender)
   const received = await coinRepositoryMjs.received(sender)
+  const remainingCoins = await coinRepositoryMjs.remainingCoins(sender)
 
   return {
     blocks: [
@@ -56,7 +57,7 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Ciao ${sender}, ecco un recap della tua situazione*`
+          text: `*Ciao ${sender}, hai ancora ${remainingCoins} Flowing Coin. Ecco un recap della tua situazione*`
         }
       },
       {

@@ -1,7 +1,6 @@
 const sendCommandParser = require('./sendCommandParser')
 const coinRepository = require('../lib/coinRepository')
-
-const TOTAL_COINS = 35
+const coinExchangeFactory = require('../model/coinExchange')
 
 const VALID_COMMAND_NAMES = [
   'send',
@@ -46,27 +45,46 @@ const canHandle = (sender, _text) => {
 }
 
 const handle = async (sender, text) => {
-  const sendData = sendCommandParser(text)
+  const {
+    value,
+    receivers,
+    message
+  } = sendCommandParser(text)
 
-  const coinsToSend = sendData.value * sendData.receivers.length
   const senderCoins = await coinRepository.countBySender(sender)
-  if (TOTAL_COINS - senderCoins < coinsToSend) {
-    return `Purtroppo non hai abbastanza (${senderCoins}) Flowing Coin per ringraziare ${sendData.receivers.join(', ')}`
+
+  const coinExchange = coinExchangeFactory({
+    sender,
+    receivers,
+    amount: value,
+    senderCoins
+  })
+
+  const validationResult = coinExchange.validateSend()
+
+  if (validationResult === coinExchange.VALIDATION_STATUS.NOT_ENOUGH_COINS) {
+    return `Purtroppo non hai abbastanza (${senderCoins}) Flowing Coin per ringraziare ${receivers.join(', ')}`
+  }
+
+  if (validationResult === coinExchange.VALIDATION_STATUS.INVALID_AMOUNT) {
+    return `Non puoi inviare ${value} Flowing Coin.`
+  }
+
+  if (validationResult === coinExchange.VALIDATION_STATUS.CANNOT_SEND_TO_SELF) {
+    return 'Non puoi inviare Flowing Coin a te stesso.'
   }
 
   await coinRepository.add({
     sender,
-    receiver: sendData.receivers,
-    amount: sendData.value
+    receiver: receivers,
+    amount: value
   })
 
-  const remaingCoins = TOTAL_COINS - senderCoins - coinsToSend
-
-  const message = sendData.message ? ` ${sendData.message}` : ''
+  const parsedMessage = message ? ` ${message}` : ''
 
   return {
     response_type: 'in_channel',
-    text: `Grazie, hai inviato ${sendData.value} Flowing Coin a ${sendData.receivers.join(', ')}${message}. Ti rimangono ${remaingCoins} Flowing Coin.`
+    text: `Grazie, hai inviato ${value} Flowing Coin a ${receivers.join(', ')}${parsedMessage}.`
   }
 }
 

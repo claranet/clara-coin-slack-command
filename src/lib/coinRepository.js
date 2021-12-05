@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
 const AWS = require('aws-sdk')
+const config = require('../model/config')
 
 AWS.config.setPromisesDependency(require('bluebird'))
 
@@ -56,7 +57,12 @@ const create = () => {
 
   const countBySender = async sender => {
     const coins = await listAll()
-    return coins.filter(coin => coin.sender === sender).length
+    return coins.filter(coin => coin.sender === sender).reduce((sum, coin) => sum + coin.amount, 0)
+  }
+
+  const remainingCoins = async sender => {
+    const sent = await countBySender(sender)
+    return config.TOTAL_COINS - sent
   }
 
   const sent = async sender => {
@@ -78,6 +84,7 @@ const create = () => {
   return {
     add,
     countBySender,
+    remainingCoins,
     sent,
     received
   }
