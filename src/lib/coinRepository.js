@@ -1,42 +1,76 @@
 const { v4: uuidv4 } = require('uuid')
+const AWS = require('aws-sdk')
+
+AWS.config.setPromisesDependency(require('bluebird'))
+
+const dynamoDb = new AWS.DynamoDB.DocumentClient()
 
 const unixTimestamp = () => Math.floor(Date.now() / 1000)
 
 const toArray = (maybeArray = []) => Array.isArray(maybeArray) ? maybeArray : [maybeArray]
 
 const create = () => {
-  const coins = []
-
-  const singleAdd = async ({ from, to, amount = 1 }) => {
+  const singleAdd = async ({ sender, receiver, amount = 1 }) => {
+    const timestamp = unixTimestamp()
     const coin = {
-      from,
-      to,
+      sender,
+      receiver,
       amount,
       id: uuidv4(),
-      timestamp: unixTimestamp()
+      timestamp,
+      sentTime: timestamp
     }
-    coins.push(coin)
+
+    const coinInfo = {
+      TableName: process.env.COINS_TABLE,
+      Item: coin
+    }
+
+    await dynamoDb.put(coinInfo).promise()
+
     return coin
   }
 
-  const add = ({ from, to, amount = 1 }) => {
-    return Promise.all(toArray(to).map(_to => singleAdd({ from, to: _to, amount })))
+  const add = ({ sender, receiver, amount = 1 }) => {
+    return Promise.all(toArray(receiver).map(_to => singleAdd({ sender, receiver: _to, amount })))
   }
 
-  const countBySender = async from => {
-    return coins.filter(coin => coin.from === from).length
+  const listAll = () => new Promise((resolve, reject) => {
+    const params = {
+      TableName: process.env.COINS_TABLE,
+      ProjectionExpression: 'id, sentTime, sender, receiver, amount'
+    }
+
+    const onScan = (err, data) => {
+      if (err) {
+        console.log('Scan failed to load data. Error JSON:', JSON.stringify(err, null, 2))
+        reject(err)
+      } else {
+        console.log('Scan succeeded.')
+        resolve(data.Items)
+      }
+    }
+
+    dynamoDb.scan(params, onScan)
+  })
+
+  const countBySender = async sender => {
+    const coins = await listAll()
+    return coins.filter(coin => coin.sender === sender).length
   }
 
-  const sent = async from => {
-    return coins.filter(coin => coin.from === from).reduce((acc, coin) => {
-      acc[coin.to] = (acc[coin.to] || 0) + coin.amount
+  const sent = async sender => {
+    const coins = await listAll()
+    return coins.filter(coin => coin.sender === sender).reduce((acc, coin) => {
+      acc[coin.receiver] = (acc[coin.receiver] || 0) + coin.amount
       return acc
     }, {})
   }
 
-  const received = async to => {
-    return coins.filter(coin => coin.to === to).reduce((acc, coin) => {
-      acc[coin.from] = (acc[coin.from] || 0) + coin.amount
+  const received = async receiver => {
+    const coins = await listAll()
+    return coins.filter(coin => coin.receiver === receiver).reduce((acc, coin) => {
+      acc[coin.sender] = (acc[coin.sender] || 0) + coin.amount
       return acc
     }, {})
   }

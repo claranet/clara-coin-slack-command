@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1043.0",
+    "bluebird": "^3.7.2",
     "body-parser-for-serverless": "^1.0.1",
     "uuid": "^8.3.2"
   },

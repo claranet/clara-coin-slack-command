@@ -55,8 +55,8 @@ const handle = async (sender, text) => {
   }
 
   await coinRepository.add({
-    from: sender,
-    to: sendData.receivers,
+    sender,
+    receiver: sendData.receivers,
     amount: sendData.value
   })
 
