@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run deploy
+branch=`git branch | grep \\* | cut -d ' ' -f2`;branchesToCheck=(\"main\"); [[ \" ${branchesToCheck[@]} \" =~ \" ${branch} \" ]] && npm run deploy || exit 0
+
