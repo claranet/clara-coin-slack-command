@@ -18,6 +18,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "git-branch-is": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.2.4",
     "lint-staged": "^12.1.2",
