@@ -18,3 +18,9 @@ tap.test('a send command should work also in italian', t => {
   t.ok(isSend)
   t.end()
 })
+
+tap.test('a send command should not work with float numbers', t => {
+  const isSend = canHandle('fosco', 'invia 0.6 a @Strazz')
+  t.notOk(isSend)
+  t.end()
+})

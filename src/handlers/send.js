@@ -33,7 +33,7 @@ const canHandle = (sender, _text) => {
     return false
   }
 
-  if (!Number.isFinite(Number(value))) {
+  if (!Number.isInteger(Number(value))) {
     return false
   }
 
