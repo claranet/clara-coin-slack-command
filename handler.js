@@ -32,10 +32,11 @@ const getResult = async body => {
 }
 
 module.exports.v1 = async (event) => {
-  const body = await parser(event)
-  const result = await getResult(body)
-
   try {
+    const body = await parser(event)
+    const result = await getResult(body)
+    console.log('body', body)
+    console.log('result', result)
     return {
       statusCode: 200,
       body: JSON.stringify(result),

@@ -2,6 +2,8 @@ const sendCommandParser = require('./sendCommandParser')
 const coinRepository = require('../lib/coinRepository')
 const coinExchangeFactory = require('../model/coinExchange')
 
+const slackUtils = require('../utils/slack')
+
 const VALID_COMMAND_NAMES = [
   'send',
   'invia',
@@ -41,7 +43,7 @@ const canHandle = (sender, _text) => {
     return false
   }
 
-  return receiver.startsWith('@')
+  return slackUtils.isSlackUser(receiver)
 }
 
 const handle = async (sender, text) => {
