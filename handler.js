@@ -34,8 +34,12 @@ const getResult = async body => {
 module.exports.v1 = async (event) => {
   try {
     const body = await parser(event)
-    const result = await getResult(body)
+    if (body.token !== process.env.SLACK_TOKEN) {
+      throw new Error('Invalid token')
+    }
+
     console.log('body', body)
+    const result = await getResult(body)
     console.log('result', result)
     return {
       statusCode: 200,
