@@ -25,7 +25,6 @@ const canHandle = (sender, _text) => {
 
 const handle = async (sender, text) => {
   return {
-    response_type: 'in_channel',
     blocks: [
       {
         type: 'section',
