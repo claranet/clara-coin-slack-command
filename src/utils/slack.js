@@ -6,6 +6,9 @@ const isSlackUser = receiver => {
 }
 
 const getSlackUserName = receiver => {
+  if (!isSlackUser(receiver)) {
+    return ''
+  }
   const regEx = new RegExp(SLACK_USER_REGEX)
   const match = regEx.exec(receiver)
   return match[1]

@@ -2,8 +2,6 @@ const tap = require('tap')
 const sendCommandParser = require('./sendCommandParser')
 
 tap.test('sendCommandParser', t => {
-  t.end()
-
   tap.test('should extract receiver and value', t => {
     const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo>')
     t.match(message, {
@@ -56,4 +54,6 @@ tap.test('sendCommandParser', t => {
     })
     t.end()
   })
+
+  t.end()
 })
