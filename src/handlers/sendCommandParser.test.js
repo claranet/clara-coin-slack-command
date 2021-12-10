@@ -46,7 +46,7 @@ tap.test('sendCommandParser', t => {
       receivers: ['adellava', 'g.mandolini'],
       message: 'becasue they are too cool'
     })
-    const italianMessage = sendCommandParser('invia 1 a <@U1U66VAP9|adellava> e <@U1Y5G64AX|g.mandolini> perché sono troppo cool')
+    const italianMessage = sendCommandParser('invia 1 a <@U1U66VAP9|adellava> e a <@U1Y5G64AX|g.mandolini> perché sono troppo cool')
     t.match(italianMessage, {
       value: 1,
       receivers: ['adellava', 'g.mandolini'],
