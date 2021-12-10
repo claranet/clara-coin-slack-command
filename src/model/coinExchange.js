@@ -1,5 +1,3 @@
-const config = require('./config')
-
 const VALIDATION_STATUS = {
   OK: Symbol('OK'),
   CANNOT_SEND_TO_SELF: Symbol('CANNOT_SEND_TO_SELF'),
@@ -8,10 +6,11 @@ const VALIDATION_STATUS = {
 }
 
 const create = ({
-  sender,
+  sender = '',
   receivers = [],
   amount = 1,
-  senderCoins
+  alreadySentCoins = 0,
+  totalCoins = 0
 }) => {
   const validateSend = () => {
     if (amount <= 0) {
@@ -23,14 +22,21 @@ const create = ({
     }
 
     const coinsToSend = amount * receivers.length
-    if (config.TOTAL_COINS - senderCoins < coinsToSend) {
+    if (totalCoins - alreadySentCoins < coinsToSend) {
       return VALIDATION_STATUS.NOT_ENOUGH_COINS
     }
 
     return VALIDATION_STATUS.OK
   }
 
+  const toEntity = () => (Object.freeze({
+    sender,
+    receiver: receivers,
+    amount
+  }))
+
   return {
+    toEntity,
     validateSend,
     VALIDATION_STATUS
   }
