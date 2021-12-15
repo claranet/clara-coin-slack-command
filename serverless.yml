@@ -7,7 +7,7 @@ provider:
   lambdaHashingVersion: '20201221'
   region: eu-central-1
   environment:
-    COINS_TABLE: "flw-coins-${opt:stage, 'dev'}"
+    COINS_TABLE: "flw-coins-${opt:stage, 'dev'}-12-2021"
     SLACK_TOKEN: "IC4NXN8MzB2jWOS1GITCSaNR"
 
 functions:
