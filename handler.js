@@ -7,7 +7,7 @@ const statusHandler = require('./src/handlers/status')
 const helpHandler = require('./src/handlers/help')
 const boaHandler = require('./src/handlers/boa')
 
-const slackTextResponse = require('./utils/slackTextResponse')
+const slackTextResponse = require('./src/utils/slackTextResponse')
 
 const handlers = [
   statusHandler,
