@@ -4,6 +4,7 @@ const coinExchangeFactory = require('../model/coinExchange')
 const config = require('../model/config')
 
 const slackUtils = require('../utils/slack')
+const slackTextResponse = require('../utils/slackTextResponse')
 
 const VALID_COMMAND_NAMES = [
   'send',
@@ -67,25 +68,22 @@ const handle = async (sender, text) => {
   const validationResult = coinExchange.validateSend()
 
   if (validationResult === coinExchange.VALIDATION_STATUS.NOT_ENOUGH_COINS) {
-    return `Purtroppo non hai abbastanza Flowing Coin (${config.TOTAL_COINS - alreadySentCoins}) per ringraziare ${receivers.join(', ')}`
+    return slackTextResponse.private(`Purtroppo non hai abbastanza Flowing Coin (${config.TOTAL_COINS - alreadySentCoins}) per ringraziare ${receivers.join(', ')}`)
   }
 
   if (validationResult === coinExchange.VALIDATION_STATUS.INVALID_AMOUNT) {
-    return `Non puoi inviare ${value} Flowing Coin.`
+    return slackTextResponse.private(`Non puoi inviare ${value} Flowing Coin.`)
   }
 
   if (validationResult === coinExchange.VALIDATION_STATUS.CANNOT_SEND_TO_SELF) {
-    return 'Non puoi inviare Flowing Coin a te stesso.'
+    return slackTextResponse.private('Non puoi inviare Flowing Coin a te stesso.')
   }
 
   await coinRepository.add(coinExchange.toEntity())
 
   const parsedMessage = message ? ` ${message}` : ''
 
-  return {
-    response_type: 'in_channel',
-    text: `Grazie, hai inviato ${value} Flowing Coin a ${receivers.join(', ')}${parsedMessage}.`
-  }
+  return slackTextResponse.public(`Grazie, hai inviato ${value} Flowing Coin a ${receivers.join(', ')}${parsedMessage}.`)
 }
 
 module.exports = {

@@ -7,6 +7,8 @@ const statusHandler = require('./src/handlers/status')
 const helpHandler = require('./src/handlers/help')
 const boaHandler = require('./src/handlers/boa')
 
+const slackTextResponse = require('./utils/slackTextResponse')
+
 const handlers = [
   statusHandler,
   boaHandler,
@@ -28,7 +30,7 @@ const getResult = async body => {
     return result
   }
 
-  return 'Scusa non ho capito, prova a scrivere `\\coin help` per chiedere aiuto'
+  return slackTextResponse.private('Scusa non ho capito, prova a scrivere `/coin help` per chiedere aiuto')
 }
 
 module.exports.v1 = async (event) => {
