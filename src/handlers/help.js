@@ -40,14 +40,17 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: 'Invia dei coin a dei surfer: `/coin invia [valore] a [surfers]`.\n\n Il comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\n*Esempio:* `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
+          text: '*Invia dei coin a dei surfer*: `/coin invia [valore] a [surfers]`.\n\n Il comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\nEsempio: `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
         }
+      },
+      {
+        type: 'divider'
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: 'Per conoscere il tuo status: `/coin status`.\n\n La risposta sarà un messaggio privato non visibile a nessun altro utente.'
+          text: '*Per conoscere il tuo status*: `/coin status`.\n\n La risposta sarà un messaggio privato non visibile a nessun altro utente.'
         }
       }
     ]
