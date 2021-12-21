@@ -30,6 +30,16 @@ tap.test('sendCommandParser', t => {
     t.end()
   })
 
+  tap.test('should escape channel names', t => {
+    const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco> because of their work on <#C015G9N3J02|random>')
+    t.match(message, {
+      value: 1,
+      receivers: ['francesco-strazzullo', 'fosco'],
+      message: 'because of their work on #random'
+    })
+    t.end()
+  })
+
   tap.test('should work also in italian', t => {
     const message = sendCommandParser('invia 1 a <@U1U66VAP9|adellava> <@U1Y5G64AX|g.mandolini>')
     t.match(message, {
