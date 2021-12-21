@@ -10,7 +10,6 @@ const getMessage = (firstNotUsernameWordIndex, rest) => {
     .slice(firstNotUsernameWordIndex)
     .map(word => {
       const result = slackUtils.isSlackChannel(word) ? `#${slackUtils.getSlackChannel(word)}` : word
-      console.log({ word, result, b: slackUtils.isSlackChannel(word) })
       return result
     })
     .join(' ')
@@ -31,7 +30,6 @@ module.exports = _text => {
 
   const firstNotUsernameWordIndex = arrays.findLastIndex(rest, word => slackUtils.isSlackUser(word)) + 1
   const maybeRemaingReceivers = firstNotUsernameWordIndex !== -1 ? rest.slice(0, firstNotUsernameWordIndex) : rest
-  console.log({ firstNotUsernameWordIndex, rest, maybeRemaingReceivers })
   const message = getMessage(firstNotUsernameWordIndex, rest)
   const remainingReceivers = maybeRemaingReceivers.filter(slackUtils.isSlackUser)
 

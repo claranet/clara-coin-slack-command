@@ -1,16 +1,16 @@
 const invariant = require('./invariant')
 
 const _private = text => {
-  invariant(text)
-  invariant(typeof text === 'string')
+  invariant(text, 'text is required')
+  invariant(typeof text === 'string', 'text must be a string')
   return {
     text
   }
 }
 
 const _public = text => {
-  invariant(text)
-  invariant(typeof text === 'string')
+  invariant(text, 'text is required')
+  invariant(typeof text === 'string', 'text must be a string')
   return {
     text,
     response_type: 'in_channel'
