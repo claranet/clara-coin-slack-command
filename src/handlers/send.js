@@ -57,6 +57,8 @@ const handle = async (sender, text) => {
 
   const alreadySentCoins = await coinRepository.countBySender(sender)
 
+  const dryRun = message.toLowerCase().endsWith('--dry')
+
   const coinExchange = coinExchangeFactory({
     sender,
     receivers,
@@ -79,11 +81,13 @@ const handle = async (sender, text) => {
     return slackTextResponse.private('Non puoi inviare Flowing Coin a te stesso.')
   }
 
-  await coinRepository.add(coinExchange.toEntity())
+  if (!dryRun) {
+    await coinRepository.add(coinExchange.toEntity())
+  }
 
   const parsedMessage = message ? ` ${message}` : ''
 
-  return slackTextResponse.public(`Grazie, hai inviato ${value} Flowing Coin a ${receivers.join(', ')}${parsedMessage}.`)
+  return slackTextResponse.public(`Grazie, hai inviato ${value} Flowing Coin a ${receivers.join(', ')}${parsedMessage}.${dryRun ? ' (DRY RUN)' : ''}`)
 }
 
 module.exports = {

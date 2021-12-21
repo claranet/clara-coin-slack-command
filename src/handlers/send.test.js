@@ -24,3 +24,33 @@ tap.test('a send command should not work with float numbers', t => {
   t.notOk(isSend)
   t.end()
 })
+
+tap.test('send should invoke coin repository if not in dry run mode', t => {
+  let calls = 0
+  const sendHandler = t.mock('./send', {
+    '../lib/coinRepository': {
+      countBySender: () => Promise.resolve(0),
+      add: () => { calls++; return Promise.resolve() }
+    }
+  })
+
+  sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool').then(() => {
+    t.equal(calls, 1)
+    t.end()
+  })
+})
+
+tap.test('send should not invoke coin repository if in dry run mode', t => {
+  let calls = 0
+  const sendHandler = t.mock('./send', {
+    '../lib/coinRepository': {
+      countBySender: () => Promise.resolve(0),
+      add: () => { calls++; return Promise.resolve() }
+    }
+  })
+
+  sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool --dry').then(() => {
+    t.equal(calls, 0)
+    t.end()
+  })
+})
