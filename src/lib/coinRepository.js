@@ -4,13 +4,11 @@ const config = require('../model/config')
 
 AWS.config.setPromisesDependency(require('bluebird'))
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient()
-
 const unixTimestamp = () => Math.floor(Date.now() / 1000)
 
 const toArray = (maybeArray = []) => Array.isArray(maybeArray) ? maybeArray : [maybeArray]
 
-const create = () => {
+const create = (dynamoDb) => {
   const singleAdd = async ({ sender, receiver, amount = 1 }) => {
     const timestamp = unixTimestamp()
     const coin = {
@@ -90,4 +88,4 @@ const create = () => {
   }
 }
 
-module.exports = create()
+module.exports = create(new AWS.DynamoDB.DocumentClient())
