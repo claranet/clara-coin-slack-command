@@ -44,7 +44,7 @@ module.exports.v1 = async (event) => {
     const result = await getResult(body)
     console.log('result', result)
     return {
-      statusCode: 200,
+      statusCode: 400,
       body: JSON.stringify(result),
       headers: {
         'Content-Type': 'application/json'
