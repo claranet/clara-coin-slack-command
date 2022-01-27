@@ -33,7 +33,7 @@ const getResult = async body => {
   return slackTextResponse.private('Scusa non ho capito, prova a scrivere `/coin help` per chiedere aiuto')
 }
 
-module.exports.v1 = async (event) => {
+const send = async (event) => {
   try {
     const body = await parser(event)
     if (body.token !== process.env.SLACK_TOKEN) {
@@ -56,4 +56,8 @@ module.exports.v1 = async (event) => {
       body: err.message
     }
   }
+}
+
+module.exports.v1 = {
+  send
 }

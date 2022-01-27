@@ -12,7 +12,7 @@ provider:
 
 functions:
   coin:
-    handler: handler.v1
+    handler: handler.v1.send
     events:
       - httpApi:
           path: /slack
