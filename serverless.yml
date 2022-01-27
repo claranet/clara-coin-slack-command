@@ -17,6 +17,12 @@ functions:
       - httpApi:
           path: /slack
           method: post
+  list:
+    handler: handler.v1.tickets
+    events:
+      - httpApi:
+          path: /tickets
+          method: get
 
 resources:
   Resources:

@@ -80,6 +80,7 @@ const create = (dynamoDb) => {
   }
 
   return {
+    listAll,
     add,
     countBySender,
     remainingCoins,

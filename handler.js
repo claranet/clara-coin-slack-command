@@ -8,6 +8,8 @@ const helpHandler = require('./src/handlers/help')
 const boaHandler = require('./src/handlers/boa')
 
 const slackTextResponse = require('./src/utils/slackTextResponse')
+const coinRepository = require('./src/lib/coinRepository')
+const coinTicketParser = require('./src/lib/coinTicketParser')
 
 const handlers = [
   statusHandler,
@@ -58,6 +60,39 @@ const send = async (event) => {
   }
 }
 
+const tickets = async (event) => {
+  try {
+    if (event.headers.authorization !== process.env.SLACK_TOKEN) {
+      return {
+        statusCode: 401
+      }
+    }
+
+    const results = await coinRepository.listAll()
+    const tickets = coinTicketParser(results)
+
+    const parsedTickets = tickets
+      .map(ticket => {
+        return `${ticket.sender} -> ${ticket.receiver}`
+      })
+      .join('\n')
+
+    return {
+      statusCode: 200,
+      body: parsedTickets,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: err.message
+    }
+  }
+}
+
 module.exports.v1 = {
-  send
+  send,
+  tickets
 }
