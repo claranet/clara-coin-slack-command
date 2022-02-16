@@ -1,5 +1,6 @@
 const slackUtils = require('../utils/slack')
 const arrays = require('../utils/arrays')
+const sendCommandTextSanitazier = require('./sendCommandTextSanitazier')
 
 const getMessage = (firstNotUsernameWordIndex, rest) => {
   if (firstNotUsernameWordIndex === -1) {
@@ -16,7 +17,7 @@ const getMessage = (firstNotUsernameWordIndex, rest) => {
 }
 
 module.exports = _text => {
-  const text = _text.toLowerCase()
+  const text = sendCommandTextSanitazier(_text)
 
   const parts = text.split(' ')
 

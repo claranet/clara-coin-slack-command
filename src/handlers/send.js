@@ -5,6 +5,7 @@ const config = require('../model/config')
 
 const slackUtils = require('../utils/slack')
 const slackTextResponse = require('../utils/slackTextResponse')
+const sendCommandTextSanitazier = require('./sendCommandTextSanitazier')
 
 const VALID_COMMAND_NAMES = Object.freeze([
   'send',
@@ -18,15 +19,11 @@ const VALID_TO = Object.freeze([
   'a'
 ])
 
-const IRREGAULAR_WHITE_SPACE_REGEX = /\s+/ig
-
 const canHandle = (sender, _text) => {
   if (!_text) {
     return false
   }
-  const text = _text.replace(IRREGAULAR_WHITE_SPACE_REGEX, ' ').toLowerCase()
-
-  console.log(text)
+  const text = sendCommandTextSanitazier(_text)
 
   const parts = text.split(' ')
 

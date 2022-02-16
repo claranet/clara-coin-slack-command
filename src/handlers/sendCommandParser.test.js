@@ -49,6 +49,15 @@ tap.test('sendCommandParser', t => {
     t.end()
   })
 
+  tap.test('send command could be omitted', t => {
+    const message = sendCommandParser('1 a <@U1U66VAP9|adellava> <@U1Y5G64AX|g.mandolini>')
+    t.match(message, {
+      value: 1,
+      receivers: ['adellava', 'g.mandolini']
+    })
+    t.end()
+  })
+
   tap.test('should consider conjunctions', t => {
     const englishMessage = sendCommandParser('send 1 to <@U1U66VAP9|adellava> and <@U1Y5G64AX|g.mandolini> becasue they are too cool')
     t.match(englishMessage, {
