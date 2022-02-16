@@ -5,6 +5,12 @@ const {
   canHandle
 } = sendHandler
 
+tap.test('a send command could contain irregular whitespaces', t => {
+  const isSend = canHandle('enrico', 'invia 3 a <@U1U66VAP9|adellava> per avermi dato consigli puntuali per guidare la retrospettiva con VAS')
+  t.ok(isSend)
+  t.end()
+})
+
 tap.test('a send command should contain a number after send', t => {
   const isSend = canHandle('fosco', 'send 1 to <@U1U605T17|fosco>')
   const isNotSend = canHandle('fosco', 'send 1')

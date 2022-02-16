@@ -2,21 +2,12 @@
 'use strict'
 
 const parser = require('body-parser-for-serverless')
-const sendHandler = require('./src/handlers/send')
-const statusHandler = require('./src/handlers/status')
-const helpHandler = require('./src/handlers/help')
-const boaHandler = require('./src/handlers/boa')
+
+const handlerFactory = require('./src/handlers/handlerFactory')
 
 const slackTextResponse = require('./src/utils/slackTextResponse')
 const coinRepository = require('./src/lib/coinRepository')
 const coinTicketParser = require('./src/lib/coinTicketParser')
-
-const handlers = [
-  statusHandler,
-  boaHandler,
-  helpHandler,
-  sendHandler
-]
 
 const getResult = async body => {
   const {
@@ -25,7 +16,7 @@ const getResult = async body => {
 
   const userName = body.user_name
 
-  const handler = handlers.find(handler => handler.canHandle(userName, text))
+  const handler = handlerFactory(userName, text)
 
   if (handler) {
     const result = await handler.handle(userName, text)
