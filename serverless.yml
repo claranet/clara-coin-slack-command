@@ -9,6 +9,8 @@ provider:
   environment:
     COINS_TABLE: "flw-coins-${opt:stage, 'dev'}-1-2022"
     SLACK_TOKEN: "IC4NXN8MzB2jWOS1GITCSaNR"
+  httpApi:
+    cors: true
 
 functions:
   coin:
@@ -21,7 +23,6 @@ functions:
     handler: handler.v1.tickets
     events:
       - httpApi:
-          cors: true
           path: /tickets
           method: get
 
