@@ -21,9 +21,9 @@ functions:
     handler: handler.v1.tickets
     events:
       - httpApi:
+          cors: true
           path: /tickets
           method: get
-          cors: true
 
 resources:
   Resources:
