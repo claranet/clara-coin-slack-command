@@ -23,6 +23,7 @@ functions:
       - httpApi:
           path: /tickets
           method: get
+          cors: true
 
 resources:
   Resources:
