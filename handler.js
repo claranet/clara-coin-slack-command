@@ -15,11 +15,12 @@ const getResult = async body => {
   } = body
 
   const userName = body.user_name
+  const responseUrl = body.response_url
 
   const handler = handlerFactory(userName, text)
 
   if (handler) {
-    const result = await handler.handle(userName, text)
+    const result = await handler.handle(userName, text, responseUrl)
     return result
   }
 
