@@ -2,4 +2,3 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npm test;
-if npx git-branch-is main; then npm run deploy; fi;
