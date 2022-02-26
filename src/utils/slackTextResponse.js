@@ -4,7 +4,8 @@ const _private = text => {
   invariant(text, 'text is required')
   invariant(typeof text === 'string', 'text must be a string')
   return {
-    text
+    text,
+    response_type: 'ephemeral'
   }
 }
 

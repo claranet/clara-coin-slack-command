@@ -47,6 +47,27 @@ tap.test('send should invoke coin repository if not in dry run mode', t => {
     '../lib/coinRepository': {
       countBySender: () => Promise.resolve(0),
       add: () => { calls++; return Promise.resolve() }
+    },
+    './coinBalance': {
+      sendToSender: () => Promise.resolve()
+    }
+  })
+
+  sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool').then(() => {
+    t.equal(calls, 1)
+    t.end()
+  })
+})
+
+tap.test('send should send balance to sender if not in dry run mode', t => {
+  let calls = 0
+  const sendHandler = t.mock('./send', {
+    '../lib/coinRepository': {
+      countBySender: () => Promise.resolve(0),
+      add: () => { return Promise.resolve() }
+    },
+    './coinBalance': {
+      sendToSender: () => { calls++; return Promise.resolve() }
     }
   })
 
@@ -62,6 +83,9 @@ tap.test('send should not invoke coin repository if in dry run mode', t => {
     '../lib/coinRepository': {
       countBySender: () => Promise.resolve(0),
       add: () => { calls++; return Promise.resolve() }
+    },
+    './coinBalance': {
+      sendToSender: () => Promise.resolve()
     }
   })
 

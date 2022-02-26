@@ -7,6 +7,8 @@ const slackUtils = require('../utils/slack')
 const slackTextResponse = require('../utils/slackTextResponse')
 const sendCommandTextSanitazier = require('./sendCommandTextSanitazier')
 
+const coinBalance = require('./coinBalance')
+
 const VALID_COMMAND_NAMES = Object.freeze([
   'send',
   'invia',
@@ -49,7 +51,7 @@ const canHandle = (sender, _text) => {
   return slackUtils.isSlackUser(receiver)
 }
 
-const handle = async (sender, text) => {
+const handle = async (sender, text, responseUrl) => {
   const {
     value,
     receivers,
@@ -85,6 +87,8 @@ const handle = async (sender, text) => {
   if (!dryRun) {
     await coinRepository.add(coinExchange.toEntity())
   }
+
+  await coinBalance.sendToSender(sender, responseUrl)
 
   const parsedMessage = message ? ` ${message}` : ''
 
