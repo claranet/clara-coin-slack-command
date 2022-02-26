@@ -4,7 +4,7 @@ const slackTextResponse = require('../utils/slackTextResponse')
 
 const sendToSender = async (sender, responseUrl) => {
   const remainingCoins = await coinRepository.remainingCoins(sender)
-  const message = slackTextResponse.private(`Il tuo saldo residuo è di ${remainingCoins} FlowingCoins`)
+  const message = slackTextResponse.private(`Il tuo saldo residuo è di ${remainingCoins} Flowing Coins`)
   await slackApiClient.sendMessage(message, responseUrl)
 }
 
