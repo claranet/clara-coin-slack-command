@@ -1,10 +1,14 @@
-const axios = require('axios')
+const undici = require('undici')
 
 const sendMessage = async (message, responseUrl) => {
-  await axios.post(
-    responseUrl,
-    JSON.stringify(message)
-  )
+  try {
+    return await undici.request(
+      responseUrl,
+      { body: JSON.stringify(message), method: 'POST' }
+    )
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 module.exports = {
