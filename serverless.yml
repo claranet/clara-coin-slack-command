@@ -1,0 +1,76 @@
+service: flowing-coin-slack-command
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  region: eu-west-1
+  environment:
+    COINS_TABLE: ${self:custom.s3.table_name}
+    SLACK_TOKEN: ${ssm:${self:custom.env.slack_token_ssm_path}}
+  httpApi:
+    cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:*:${ssm:${self:custom.iam_role.resource_id}}:table/flw-coins-*"
+
+custom:
+  s3:
+    table_name: "flw-coins-${opt:stage, 'dev'}-3-2022"
+  parameter_store:
+    base_name: "/${self:service}/${opt:stage, 'dev'}"
+  env:
+    slack_token_ssm_path: "${self:custom.parameter_store.base_name}/slack-token"
+  iam_role:
+    resource_id: "${self:custom.parameter_store.base_name}/resource-id"
+
+functions:
+  health:
+    handler: handler.v1.health
+    events:
+      - httpApi:
+          path: /
+          method: get
+  coin:
+    handler: handler.v1.send
+    events:
+      - httpApi:
+          path: /slack
+          method: post
+  list:
+    handler: handler.v1.tickets
+    events:
+      - httpApi:
+          path: /tickets
+          method: get
+
+resources:
+  Resources:
+    CoinsDynamoDbTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: "id"
+            AttributeType: "S"
+          - AttributeName: "timestamp"
+            AttributeType: "N"
+        KeySchema:
+          - AttributeName: "id"
+            KeyType: "HASH"
+          - AttributeName: "timestamp"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: "NEW_AND_OLD_IMAGES"
+        TableName: ${self:custom.s3.table_name}

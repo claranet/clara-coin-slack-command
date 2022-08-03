@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+    - apt-get update
+    - apt-get install -y python3-pip jq
+    - pip install yq
+    - nfv=$(cat serverless.yml | yq | jq '.frameworkVersion // "3"' | tr -d '"' | awk -F '.' '{print $1}' | sed -nr 's/^.*([0-9]+)$/\1/p')
+    - lfv=$(npm show serverless@${nfv}.* version | tail -n 1 | awk '{print $NF}' | tr -d "'")
+    - npm install --silent --no-progress -g npm
+    - npm install --silent --no-progress -g serverless@${lfv}
+  pre_build:
+    commands:
+    - npm install --silent --no-progress
+  build:
+    commands:
+    - serverless deploy --stage ${STAGE_NAME} 
+
+artifacts:
+  files:
+  - '**/*' 
