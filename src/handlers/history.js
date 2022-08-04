@@ -30,7 +30,7 @@ const receivedMessage = (coins = []) => {
   }
 
   const message = coins.map(coin => {
-    return `Ricevuti ${coin.amount} Flowing Coin da ${coin.sender} ${coin.message ? `per la seguente motivazione: "${coin.message}"` : ''}`
+    return `Ricevuti ${coin.amount} Clara Coin da ${coin.sender} ${coin.message ? `per la seguente motivazione: "${coin.message}"` : ''}`
   }).join('\n')
 
   return {
@@ -39,8 +39,8 @@ const receivedMessage = (coins = []) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Flowing Coin Ricevuti*
-Ecco un piccolo recap dei Flowing Coin ricevuti:
+          text: `*Clara Coin Ricevuti*
+Ecco un piccolo recap dei Clara Coin ricevuti:
           `
         }
       },
@@ -65,8 +65,8 @@ const noCoinMessage = () => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Flowing Coin Ricevuti*
-Non hai ricevuto nessun Flowing Coin.`
+          text: `*Clara Coin Ricevuti*
+Non hai ricevuto nessun Clara Coin.`
         }
       }
     ]

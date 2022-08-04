@@ -29,10 +29,10 @@ const sentMessage = sent => {
   const formattedSent = Object.entries(sent).map(([name, value]) => ` - *${name}*: ${value}`).join('\n')
 
   if (totalSent === 0) {
-    return 'Non hai inviato nessun Flowing Coin.'
+    return 'Non hai inviato nessun Clara Coin.'
   }
 
-  return `Hai inviato un totale di ${totalSent} Flowing Coin così ripartiti: \n${formattedSent}`
+  return `Hai inviato un totale di ${totalSent} Clara Coin così ripartiti: \n${formattedSent}`
 }
 
 const receivedMessage = received => {
@@ -40,10 +40,10 @@ const receivedMessage = received => {
   const formattedReceived = Object.entries(received).map(([name, value]) => ` - *${name}*: ${value}`).join('\n')
 
   if (totalReceived === 0) {
-    return 'Non hai ricevuto nessun Flowing Coin.'
+    return 'Non hai ricevuto nessun Clara Coin.'
   }
 
-  return `Hai ricevuto un totale di ${totalReceived} Flowing Coin così ripartiti: \n${formattedReceived}`
+  return `Hai ricevuto un totale di ${totalReceived} Clara Coin così ripartiti: \n${formattedReceived}`
 }
 
 const handle = async (sender, text) => {
@@ -57,7 +57,7 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Ciao ${sender}, hai ancora ${remainingCoins} Flowing Coin. Ecco un recap della tua situazione*`
+          text: `*Ciao ${sender}, hai ancora ${remainingCoins} Clara Coin. Ecco un recap della tua situazione*`
         }
       },
       {

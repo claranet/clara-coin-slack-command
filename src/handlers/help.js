@@ -30,9 +30,9 @@ const handle = async (sender, text) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Flowing Coin Help*
+          text: `*Clara Coin Help*
           
-Per conoscere i principi e le regole dei Flowing Coin leggi il nostro post del plyabook:
+Per conoscere i principi e le regole dei Clara Coin leggi il nostro post del plyabook:
 (https://www.flowing.it/blog/come-si-lavora-in-flowing-feedback-mentoring-e-flowing-coin/)
           `
         }
@@ -44,7 +44,7 @@ Per conoscere i principi e le regole dei Flowing Coin leggi il nostro post del p
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*Cosa devi sapere sui Flowing Coin*:\n\n*Per inviare dei coin a dei surfer usa il comando:*\n`/coin invia [valore] a [surfers] [motivo opzionale]`.\noppure\n`/coin [valore] a [surfers] [motivo opzionale]`\n\nIl comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\nEsempio: `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
+          text: '*Cosa devi sapere sui Clara Coin*:\n\n*Per inviare dei coin a dei surfer usa il comando:*\n`/coin invia [valore] a [surfers] [motivo opzionale]`.\noppure\n`/coin [valore] a [surfers] [motivo opzionale]`\n\nIl comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\nEsempio: `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
         }
       },
       {
@@ -64,7 +64,7 @@ Per conoscere i principi e le regole dei Flowing Coin leggi il nostro post del p
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*Per avere un elenco di tutti i Flowing Coin ricevuti:*:\n`/coin history`.\n\n La risposta sarà un messaggio privato non visibile a nessun altro utente in cui saranno elencati i coin ricevuti con l\'eventuale motivazione.'
+          text: '*Per avere un elenco di tutti i Clara Coin ricevuti:*:\n`/coin history`.\n\n La risposta sarà un messaggio privato non visibile a nessun altro utente in cui saranno elencati i coin ricevuti con l\'eventuale motivazione.'
         }
       }
     ]
