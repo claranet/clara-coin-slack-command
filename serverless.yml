@@ -24,7 +24,7 @@ provider:
 
 custom:
   s3:
-    table_name: "flw-coins-${opt:stage, 'dev'}-3-2022"
+    table_name: "clara-coins-${opt:stage, 'dev'}-3-2022"
   parameter_store:
     base_name: "/${self:service}/${opt:stage, 'dev'}"
   env:
