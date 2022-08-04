@@ -20,7 +20,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:*:${ssm:${self:custom.iam_role.resource_id}}:table/flw-coins-*"
+      Resource: "arn:aws:dynamodb:*:${ssm:${self:custom.iam_role.resource_id}}:table/clara-coins-*"
 
 custom:
   s3:
