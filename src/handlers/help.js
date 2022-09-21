@@ -44,7 +44,7 @@ Per conoscere i principi e le regole dei Clara Coin leggi il nostro post del ply
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*Cosa devi sapere sui Clara Coin*:\n\n*Per inviare dei coin a dei surfer usa il comando:*\n`/coin invia [valore] a [persona] [motivo opzionale]`.\noppure\n`/coin [valore] a [persona] [motivo opzionale]`\n\nIl comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\nEsempio: `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
+          text: '*Cosa devi sapere sui Clara Coin*:\n\n*Per inviare dei coin a dei sailor usa il comando:*\n`/coin invia [valore] a [persona] [motivo opzionale]`.\noppure\n`/coin [valore] a [persona] [motivo opzionale]`\n\nIl comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\nEsempio: `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
         }
       },
       {
