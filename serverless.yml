@@ -51,6 +51,12 @@ functions:
       - httpApi:
           path: /tickets
           method: get
+  list:
+    handler: handler.v1.extract
+    events:
+      - httpApi:
+          path: /extract
+          method: get
 
 resources:
   Resources:
