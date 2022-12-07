@@ -76,15 +76,9 @@ const tickets = async (event) => {
     const results = await coinRepository.listAll()
     const tickets = coinTicketParser(results)
 
-    const parsedTickets = tickets
-      .map(ticket => {
-        return `${ticket.sender} -> ${ticket.receiver}`
-      })
-      .join('\n')
-
     return {
       statusCode: 200,
-      body: parsedTickets,
+      body: tickets,
       headers: {
         'Content-Type': 'application/json'
       }
