@@ -46,10 +46,12 @@ const send = async (event) => {
     if (body.token !== process.env.SLACK_TOKEN) {
       throw new Error('Invalid token')
     }
-
-    console.log('body', body)
     const result = await getResult(body)
-    console.log('result', result)
+
+    console.log({
+      body,
+      result
+    })
     return {
       statusCode: 200,
       body: JSON.stringify(result),
