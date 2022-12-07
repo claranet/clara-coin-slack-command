@@ -80,7 +80,7 @@ const tickets = async (event) => {
 
     return {
       statusCode: 200,
-      body: tickets,
+      body: JSON.stringify(tickets),
       headers: {
         'Content-Type': 'application/json'
       }
