@@ -93,15 +93,9 @@ const tickets = async (event) => {
   }
 }
 
-const getMultipleRandom = (array, n) => {
-  const shuffled = [...array].sort(() => 0.5 - Math.random())
-  return shuffled.slice(0, n)
+const getRandomElement = (array) => {
+  return array[Math.floor(Math.random() * array.length)]
 }
-
-const randomInRange = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
 const extract = async (event) => {
   try {
     if (event.headers.authorization !== process.env.SLACK_TOKEN) {
@@ -113,19 +107,11 @@ const extract = async (event) => {
     const results = await coinRepository.listAll()
     const tickets = coinTicketParser(results)
 
-    const winners = getMultipleRandom(tickets, 3)
-    const winningIndex = randomInRange(0, 2)
-    const mappedWinners = winners.map((winner, index) => {
-      return {
-        ...winner,
-        prize: index === winningIndex ? 'Money' : 'Toy'
-      }
-    }
-    )
+    const winner = getRandomElement(tickets)
 
     return {
       statusCode: 200,
-      body: JSON.stringify(mappedWinners),
+      body: JSON.stringify(winner),
       headers: {
         'Content-Type': 'application/json'
       }
