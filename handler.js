@@ -105,7 +105,7 @@ const csv = async (event) => {
     const tickets = coinTicketParser(results)
 
     const ticketsAsCsv = tickets.map(ticket => {
-      return `${ticket.name} --> ${ticket.price}`
+      return `${ticket.sender} --> ${ticket.receiver}`
     }).join('\n')
 
     return {
