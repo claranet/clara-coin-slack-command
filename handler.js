@@ -93,6 +93,10 @@ const tickets = async (event) => {
   }
 }
 
+const shuffle = (array) => {
+  return [...array].sort(() => Math.random() - 0.5)
+}
+
 const csv = async (event) => {
   try {
     if (event.headers.authorization !== process.env.SLACK_TOKEN) {
@@ -104,7 +108,7 @@ const csv = async (event) => {
     const results = await coinRepository.listAll()
     const tickets = coinTicketParser(results)
 
-    const ticketsAsCsv = tickets.map(ticket => {
+    const ticketsAsCsv = shuffle(tickets).map(ticket => {
       return `${ticket.sender} --> ${ticket.receiver}`
     }).join('\n')
 
