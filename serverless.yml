@@ -45,18 +45,6 @@ functions:
       - httpApi:
           path: /slack
           method: post
-  list:
-    handler: handler.v1.tickets
-    events:
-      - httpApi:
-          path: /tickets
-          method: get
-  extract:
-    handler: handler.v1.extract
-    events:
-      - httpApi:
-          path: /extract
-          method: get
   csv:
     handler: handler.v1.csv
     events:

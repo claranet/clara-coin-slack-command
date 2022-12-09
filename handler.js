@@ -67,32 +67,6 @@ const send = async (event) => {
   }
 }
 
-const tickets = async (event) => {
-  try {
-    if (event.headers.authorization !== process.env.SLACK_TOKEN) {
-      return {
-        statusCode: 401
-      }
-    }
-
-    const results = await coinRepository.listAll()
-    const tickets = coinTicketParser(results)
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(tickets),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: err.message
-    }
-  }
-}
-
 const shuffle = (array) => {
   return [...array].sort(() => Math.random() - 0.5)
 }
@@ -127,42 +101,8 @@ const csv = async (event) => {
   }
 }
 
-const getRandomElement = (array) => {
-  return array[Math.floor(Math.random() * array.length)]
-}
-
-const extract = async (event) => {
-  try {
-    if (event.headers.authorization !== process.env.SLACK_TOKEN) {
-      return {
-        statusCode: 401
-      }
-    }
-
-    const results = await coinRepository.listAll()
-    const tickets = coinTicketParser(results)
-
-    const winner = getRandomElement(tickets)
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(winner),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: err.message
-    }
-  }
-}
-
 module.exports.v1 = {
   send,
-  tickets,
   health,
-  extract,
   csv
 }
