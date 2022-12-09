@@ -93,9 +93,40 @@ const tickets = async (event) => {
   }
 }
 
+const csv = async (event) => {
+  try {
+    if (event.headers.authorization !== process.env.SLACK_TOKEN) {
+      return {
+        statusCode: 401
+      }
+    }
+
+    const results = await coinRepository.listAll()
+    const tickets = coinTicketParser(results)
+
+    const ticketsAsCsv = tickets.map(ticket => {
+      return `${ticket.name} --> ${ticket.price}`
+    }).join('\n')
+
+    return {
+      statusCode: 200,
+      body: ticketsAsCsv,
+      headers: {
+        'Content-Type': 'text/csv'
+      }
+    }
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: err.message
+    }
+  }
+}
+
 const getRandomElement = (array) => {
   return array[Math.floor(Math.random() * array.length)]
 }
+
 const extract = async (event) => {
   try {
     if (event.headers.authorization !== process.env.SLACK_TOKEN) {
@@ -128,5 +159,6 @@ module.exports.v1 = {
   send,
   tickets,
   health,
-  extract
+  extract,
+  csv
 }

@@ -57,6 +57,12 @@ functions:
       - httpApi:
           path: /extract
           method: get
+  csv:
+    handler: handler.v1.csv
+    events:
+      - httpApi:
+          path: /csv
+          method: get
 
 resources:
   Resources:
