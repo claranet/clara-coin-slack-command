@@ -15,26 +15,28 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "body-parser-for-serverless": "^1.0.1",
+    "i18next": "^23.4.6",
     "undici": "^ 5.8.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "aws-sdk": "^2.1187.0",
+    "eslint": "^8.48.0",
+    "eslint-config-standard": "^17.1.0",
     "git-branch-is": "^4.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19",
     "serverless": "^3.21.0",
     "serverless-domain-manager": "^6.0.3",
-    "standard": "^17.0.0",
     "tap": "^16.3.0"
   },
-  "standard": {
-    "globals": [
-      "describe",
-      "test",
-      "expect"
-    ]
+  "eslintConfig": {
+    "globals": {
+      "describe": "readonly",
+      "test": "readonly",
+      "expect": "readonly"
+    }
   },
   "engines": {
     "node": "18.x"
@@ -43,6 +45,6 @@
     "check-coverage": false
   },
   "lint-staged": {
-    "*.js": "standard --fix"
+    "*.js": "eslint --fix"
   }
 }
