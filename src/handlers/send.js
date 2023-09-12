@@ -13,12 +13,14 @@ const VALID_COMMAND_NAMES = Object.freeze([
   'send',
   'invia',
   'invio',
-  'manda'
+  'manda',
+  'envoie'
 ])
 
 const VALID_TO = Object.freeze([
   'to',
-  'a'
+  'a',
+  'à'
 ])
 
 const canHandle = (sender, _text) => {
