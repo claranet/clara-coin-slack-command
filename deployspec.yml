@@ -10,11 +10,11 @@ phases:
     - pip install yq
     - nfv=$(cat serverless.yml | yq | jq '.frameworkVersion // "3"' | tr -d '"' | awk -F '.' '{print $1}' | sed -nr 's/^.*([0-9]+)$/\1/p')
     - lfv=$(npm show serverless@${nfv}.* version | tail -n 1 | awk '{print $NF}' | tr -d "'")
-    - npm install -g npm@9.3
-    - npm install  -g serverless@${lfv}
+    - npm install --silent --no-progress -g npm@9.3
+    - npm install --silent --no-progress -g serverless@${lfv}
   pre_build:
     commands:
-    - npm install 
+    - npm install --silent --no-progress
   build:
     commands:
     - serverless deploy --stage ${STAGE_NAME} 
