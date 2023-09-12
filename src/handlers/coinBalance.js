@@ -21,15 +21,15 @@ const balanceMessage = (sender, remainingCoins) => {
 }
 
 const avgBalanceMessage = (sender, remainingCoins) => {
-  return slackTextResponse.private(`:heavy_dollar_sign::heavy_dollar_sign::heavy_dollar_sign:\nCiao ${sender} \necco il tuo saldo residuo: *${remainingCoins} Clara Coins* \n:heavy_dollar_sign::heavy_dollar_sign::heavy_dollar_sign:`)
+  return slackTextResponse.private(`:heavy_dollar_sign::heavy_dollar_sign::heavy_dollar_sign:\nHi ${sender} \nyou have still *${remainingCoins} Clara Coins* \n:heavy_dollar_sign::heavy_dollar_sign::heavy_dollar_sign:`)
 }
 
 const quiteEmptyBalanceMessage = (sender, remainingCoins) => {
-  return slackTextResponse.private(`:eyes: Ehi ${sender} \ntieni sott'occhio il tuo saldo residuo. Restano solo *${remainingCoins} Clara Coins* :eyes:`)
+  return slackTextResponse.private(`:eyes: Ehi ${sender} \nkeep an eye on your remaining balance. There are only *${remainingCoins} Clara Coins left* :eyes:`)
 }
 
 const emptyBalanceMessage = (sender) => {
-  return slackTextResponse.private(`:gratitude-thank-you: ${sender} \nhai usato tutti i tuoi Clara Coins. Ora puoi dire grazie con una :beer:`)
+  return slackTextResponse.private(`:gratitude-thank-you: ${sender} \nYou used all of your Clara Coins. Now you can say thanks with a flower! :blossom:`)
 }
 
 module.exports = {

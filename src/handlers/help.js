@@ -1,7 +1,8 @@
 const VALID_COMMAND_NAMES = [
   'help',
   'aiuto',
-  'aiutami'
+  'aiutami',
+  'aide'
 ]
 
 const canHandle = (sender, _text) => {
@@ -32,7 +33,7 @@ const handle = async (sender, text) => {
           type: 'mrkdwn',
           text: `*Clara Coin Help*
           
-Per conoscere i principi e le regole dei Clara Coin leggi il nostro post del plyabook:
+To learn about the principles and rules of Clara Coin, read Claranet Italy's playbook post:
 (https://www.flowing.it/blog/come-si-lavora-in-flowing-feedback-mentoring-e-flowing-coin/)
           `
         }
@@ -44,7 +45,7 @@ Per conoscere i principi e le regole dei Clara Coin leggi il nostro post del ply
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*Cosa devi sapere sui Clara Coin*:\n\n*Per inviare dei coin a dei sailor usa il comando:*\n`/coin invia [valore] a [persona] [motivo opzionale]`.\noppure\n`/coin [valore] a [persona] [motivo opzionale]`\n\nIl comando può essere usato su qualsiasi canale, il bot vi risponderà nel canale in cui il comando è stato lanciato. \n\nEsempio: `/coin invia 10 a @gioboa per aver inventato i Boa Coin`'
+          text: '*What you need to know about Clara Coin*:\n\n*To send coins to sailors, use the command:*\n`/coin send [value] to [person] [optiona motive]`.\n\nThe command can be used on any channel, the bot will reply in the channel where the command was launched. \n\nExample: `/coin send 10 to @gioboa for inventing Boa Coins`'
         }
       },
       {
@@ -54,7 +55,7 @@ Per conoscere i principi e le regole dei Clara Coin leggi il nostro post del ply
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*Per conoscere il recap della tua situazione usa il comando:*:\n`/coin status`.\n\n La risposta sarà un messaggio privato non visibile a nessun altro utente in cui saranno elencati i coin inviati e i coin ricevuti e quelli residui.'
+          text: '*To get a summary of your situation, use the command:*:\n`/coin status`.\n\n The response will be a private message not visible to any other user, where the sent coins, received coins, and remaining coins will be listed.'
         }
       },
       {
@@ -64,7 +65,7 @@ Per conoscere i principi e le regole dei Clara Coin leggi il nostro post del ply
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*Per avere un elenco di tutti i Clara Coin ricevuti:*:\n`/coin history`.\n\n La risposta sarà un messaggio privato non visibile a nessun altro utente in cui saranno elencati i coin ricevuti con l\'eventuale motivazione.'
+          text: '*To view a list of all received Clara Coins:*:\n`/coin history`.\n\n The response will be a private message not visible to any other user, where the received coins will be listed.'
         }
       }
     ]
