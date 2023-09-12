@@ -27,7 +27,7 @@ tap.test('canHandle', t => {
   })
 
   tap.test('a send command should work also in french', t => {
-    const isSend = canHandle('fosco', 'invia 1 a <@U1U605T17|fosco>')
+    const isSend = canHandle('fosco', 'envoie 1 à <@U1U605T17|fosco>')
     t.ok(isSend)
     t.end()
   })
