@@ -14,7 +14,10 @@ const VALID_COMMAND_NAMES = Object.freeze([
   'invia',
   'invio',
   'manda',
-  'envoie'
+  'envoie',
+  'donne',
+  'dona',
+  'offre'
 ])
 
 const VALID_TO = Object.freeze([

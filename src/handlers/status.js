@@ -2,7 +2,8 @@ const coinRepositoryMjs = require('../lib/coinRepository')
 
 const VALID_COMMAND_NAMES = [
   'status',
-  'stato'
+  'stato',
+  'statut'
 ]
 
 const canHandle = (sender, _text) => {
