@@ -5,7 +5,7 @@ const config = require('../model/config')
 
 const slackUtils = require('../utils/slack')
 const slackTextResponse = require('../utils/slackTextResponse')
-const sendCommandTextSanitazier = require('./sendCommandTextSanitazier')
+const sendCommandTextSanitizer = require('./sendCommandTextSanitizer')
 
 const coinBalance = require('./coinBalance')
 
@@ -30,7 +30,7 @@ const canHandle = (sender, _text) => {
   if (!_text) {
     return false
   }
-  const text = sendCommandTextSanitazier(_text)
+  const text = sendCommandTextSanitizer(_text)
 
   const parts = text.split(' ')
 
