@@ -30,6 +30,16 @@ tap.test('sendCommandParser', t => {
     t.end()
   })
 
+  tap.test('should preserve the message case', t => {
+    const message = sendCommandParser('SEND 1 TO <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco> because they are TOO cool')
+    t.match(message, {
+      value: 1,
+      receivers: ['francesco-strazzullo', 'fosco'],
+      message: 'because they are TOO cool'
+    })
+    t.end()
+  })
+
   tap.test('should escape channel names', t => {
     const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco> because of their work on <#C015G9N3J02|random>')
     t.match(message, {

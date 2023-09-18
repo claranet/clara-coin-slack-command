@@ -20,6 +20,12 @@ tap.test('canHandle', t => {
     t.end()
   })
 
+  tap.test('a send command should be case insensitive', t => {
+    const isSend = canHandle('fosco', 'SEND 1 TO <@U1U605T17|fosco>')
+    t.ok(isSend)
+    t.end()
+  })
+
   tap.test('a send command should work also in italian', t => {
     const isSend = canHandle('fosco', 'invia 1 a <@U1U605T17|fosco>')
     t.ok(isSend)

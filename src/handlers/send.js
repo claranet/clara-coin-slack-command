@@ -41,7 +41,7 @@ const canHandle = (sender, _text) => {
     receiver
   ] = parts
 
-  if (!VALID_COMMAND_NAMES.includes(command)) {
+  if (!VALID_COMMAND_NAMES.includes(command.toLowerCase())) {
     return false
   }
 
@@ -49,7 +49,7 @@ const canHandle = (sender, _text) => {
     return false
   }
 
-  if (!VALID_TO.includes(to)) {
+  if (!VALID_TO.includes(to?.toLowerCase())) {
     return false
   }
 
