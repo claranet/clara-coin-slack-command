@@ -35,8 +35,8 @@ const getResult = async body => {
   }
 
   return slackTextResponse.private(`
-    Scusa non ho capito, prova a scrivere \`/coin help\` per chiedere aiuto.
-    _Messaggio Originale:_ \`/coin ${text}\`
+    Sorry I did not understand your command, try \`/coin help\` to get some help.
+    _Original Message:_ \`/coin ${text}\`
   `)
 }
 
