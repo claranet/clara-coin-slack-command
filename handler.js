@@ -1,4 +1,3 @@
-
 'use strict'
 
 const parser = require('body-parser-for-serverless')

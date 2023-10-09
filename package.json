@@ -7,7 +7,8 @@
     "test": "tap",
     "deploy-dev": "serverless deploy",
     "deploy": "serverless deploy --stage prod",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "lint": "eslint . --ext .js,.cjs,.mjs,.ts,.cts,.mts --fix --ignore-path .gitignore"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "eslint": "^8.48.0",
     "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-security": "^1.7.1",
     "git-branch-is": "^4.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
@@ -29,13 +31,6 @@
     "serverless": "^3.21.0",
     "serverless-domain-manager": "^6.0.3",
     "tap": "^16.3.0"
-  },
-  "eslintConfig": {
-    "globals": {
-      "describe": "readonly",
-      "test": "readonly",
-      "expect": "readonly"
-    }
   },
   "engines": {
     "node": "18.x"
