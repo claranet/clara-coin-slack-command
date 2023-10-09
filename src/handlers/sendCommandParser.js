@@ -15,8 +15,8 @@ const getMessage = (firstNotUsernameWordIndex, rest) => {
     .join(' ')
 }
 
-module.exports = _text => {
-  const text = sendCommandTextSanitizer(_text)
+module.exports = rawText => {
+  const text = sendCommandTextSanitizer(rawText)
 
   const parts = text.split(' ')
 

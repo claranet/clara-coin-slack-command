@@ -6,11 +6,11 @@ const VALID_COMMAND_NAMES = [
   'statut'
 ]
 
-const canHandle = (sender, _text) => {
-  if (!_text) {
+const canHandle = (_sender, rawText) => {
+  if (!rawText) {
     return false
   }
-  const text = _text.toLowerCase()
+  const text = rawText.toLowerCase()
 
   const parts = text.split(' ')
 
@@ -47,7 +47,7 @@ const receivedMessage = received => {
   return `You have received a total of ${totalReceived} Clara Coins as follows: \n${formattedReceived}`
 }
 
-const handle = async (sender, text) => {
+const handle = async (sender) => {
   const sent = await coinRepositoryMjs.sent(sender)
   const received = await coinRepositoryMjs.received(sender)
   const remainingCoins = await coinRepositoryMjs.remainingCoins(sender)

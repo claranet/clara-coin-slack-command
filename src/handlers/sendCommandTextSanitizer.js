@@ -4,12 +4,12 @@ const isStringANumber = string => {
 
 const IRREGULAR_WHITE_SPACE_REGEX = /\s+/ig
 
-module.exports = _text => {
-  const text = _text.replace(IRREGULAR_WHITE_SPACE_REGEX, ' ').trim()
-  const [start] = text.split(' ')
+module.exports = text => {
+  const cleanText = text.replace(IRREGULAR_WHITE_SPACE_REGEX, ' ').trim()
+  const [start] = cleanText.split(' ')
   if (isStringANumber(start)) {
-    return `send ${text}`
+    return `send ${cleanText}`
   }
 
-  return text
+  return cleanText
 }
