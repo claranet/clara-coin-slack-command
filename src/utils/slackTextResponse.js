@@ -1,8 +1,8 @@
-const invariant = require('./invariant')
+const assert = require('node:assert')
 
 const _private = text => {
-  invariant(text, 'text is required')
-  invariant(typeof text === 'string', 'text must be a string')
+  assert(text, 'text is required')
+  assert(typeof text === 'string', 'text must be a string')
   return {
     text,
     response_type: 'ephemeral'
@@ -10,8 +10,8 @@ const _private = text => {
 }
 
 const _public = text => {
-  invariant(text, 'text is required')
-  invariant(typeof text === 'string', 'text must be a string')
+  assert(text, 'text is required')
+  assert(typeof text === 'string', 'text must be a string')
   return {
     text,
     response_type: 'in_channel'
