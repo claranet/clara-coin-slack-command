@@ -5,11 +5,11 @@ const VALID_COMMAND_NAMES = [
   'aide'
 ]
 
-const canHandle = (sender, _text) => {
-  if (!_text) {
+const canHandle = (_sender, rawText) => {
+  if (!rawText) {
     return false
   }
-  const text = _text.toLowerCase()
+  const text = rawText.toLowerCase()
 
   const parts = text.split(' ')
 
@@ -24,7 +24,7 @@ const canHandle = (sender, _text) => {
   return true
 }
 
-const handle = async (sender, text) => {
+const handle = async (_sender, _text) => {
   return {
     blocks: [
       {

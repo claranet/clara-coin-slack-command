@@ -26,11 +26,11 @@ const VALID_TO = Object.freeze([
   'à'
 ])
 
-const canHandle = (sender, _text) => {
-  if (!_text) {
+const canHandle = (_sender, rawText) => {
+  if (!rawText) {
     return false
   }
-  const text = sendCommandTextSanitizer(_text)
+  const text = sendCommandTextSanitizer(rawText)
 
   const parts = text.split(' ')
 

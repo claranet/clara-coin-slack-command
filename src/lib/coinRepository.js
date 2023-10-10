@@ -2,8 +2,6 @@ const { v4: uuidv4 } = require('uuid')
 const AWS = require('aws-sdk')
 const config = require('../model/config')
 
-AWS.config.setPromisesDependency(require('bluebird'))
-
 const unixTimestamp = () => Math.floor(Date.now() / 1000)
 
 const toArray = (maybeArray = []) => Array.isArray(maybeArray) ? maybeArray : [maybeArray]

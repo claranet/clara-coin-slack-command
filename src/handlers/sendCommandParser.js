@@ -1,5 +1,4 @@
 const slackUtils = require('../utils/slack')
-const arrays = require('../utils/arrays')
 const sendCommandTextSanitizer = require('./sendCommandTextSanitizer')
 
 const getMessage = (firstNotUsernameWordIndex, rest) => {
@@ -16,8 +15,8 @@ const getMessage = (firstNotUsernameWordIndex, rest) => {
     .join(' ')
 }
 
-module.exports = _text => {
-  const text = sendCommandTextSanitizer(_text)
+module.exports = rawText => {
+  const text = sendCommandTextSanitizer(rawText)
 
   const parts = text.split(' ')
 
@@ -29,7 +28,7 @@ module.exports = _text => {
     ...rest
   ] = parts
 
-  const firstNotUsernameWordIndex = arrays.findLastIndex(rest, word => slackUtils.isSlackUser(word)) + 1
+  const firstNotUsernameWordIndex = rest?.findLastIndex(word => slackUtils.isSlackUser(word)) + 1
   const maybeRemaingReceivers = firstNotUsernameWordIndex !== -1 ? rest.slice(0, firstNotUsernameWordIndex) : rest
   const message = getMessage(firstNotUsernameWordIndex, rest)
   const remainingReceivers = maybeRemaingReceivers.filter(slackUtils.isSlackUser)

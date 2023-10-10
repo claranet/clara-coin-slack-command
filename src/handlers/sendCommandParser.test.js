@@ -3,48 +3,48 @@ const sendCommandParser = require('./sendCommandParser')
 
 tap.test('sendCommandParser', t => {
   tap.test('should extract receiver and value', t => {
-    const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo>')
+    const message = sendCommandParser('send 1 to <@U1U605T16|bugs.bunny>')
     t.match(message, {
       value: 1,
-      receivers: ['francesco-strazzullo']
+      receivers: ['bugs.bunny']
     })
     t.end()
   })
 
   tap.test('should extract all the receivers', t => {
-    const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco>')
+    const message = sendCommandParser('send 1 to <@U1U605T16|bugs.bunny> <@U1U605T17|fosco>')
     t.match(message, {
       value: 1,
-      receivers: ['francesco-strazzullo', 'fosco']
+      receivers: ['bugs.bunny', 'fosco']
     })
     t.end()
   })
 
   tap.test('should extract the message at the end of the command', t => {
-    const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco> because they are too cool')
+    const message = sendCommandParser('send 1 to <@U1U605T16|bugs.bunny> <@U1U605T17|fosco> because they are too cool')
     t.match(message, {
       value: 1,
-      receivers: ['francesco-strazzullo', 'fosco'],
+      receivers: ['bugs.bunny', 'fosco'],
       message: 'because they are too cool'
     })
     t.end()
   })
 
   tap.test('should preserve the message case', t => {
-    const message = sendCommandParser('SEND 1 TO <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco> because they are TOO cool')
+    const message = sendCommandParser('SEND 1 TO <@U1U605T16|bugs.bunny> <@U1U605T17|fosco> because they are TOO cool')
     t.match(message, {
       value: 1,
-      receivers: ['francesco-strazzullo', 'fosco'],
+      receivers: ['bugs.bunny', 'fosco'],
       message: 'because they are TOO cool'
     })
     t.end()
   })
 
   tap.test('should escape channel names', t => {
-    const message = sendCommandParser('send 1 to <@U1U605T16|francesco-strazzullo> <@U1U605T17|fosco> because of their work on <#C015G9N3J02|random>')
+    const message = sendCommandParser('send 1 to <@U1U605T16|bugs.bunny> <@U1U605T17|fosco> because of their work on <#C015G9N3J02|random>')
     t.match(message, {
       value: 1,
-      receivers: ['francesco-strazzullo', 'fosco'],
+      receivers: ['bugs.bunny', 'fosco'],
       message: 'because of their work on #random'
     })
     t.end()
