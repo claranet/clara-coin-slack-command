@@ -1,9 +1,5 @@
-const tap = require('tap')
-const sendHandler = require('./send')
-
-const {
-  canHandle
-} = sendHandler
+import tap from 'tap'
+import { canHandle } from './send.js'
 
 tap.test('canHandle', t => {
   tap.test('a send command could contain irregular whitespaces', t => {
@@ -53,55 +49,61 @@ tap.test('canHandle', t => {
   t.end()
 })
 
-tap.test('send should invoke coin repository if not in dry run mode', t => {
+tap.test('send should invoke coin repository if not in dry run mode', async t => {
   let calls = 0
-  const sendHandler = t.mock('./send', {
-    '../lib/coinRepository': {
-      countBySender: () => Promise.resolve(0),
-      add: () => { calls++; return Promise.resolve() }
-    },
-    './coinBalance': {
+  const sendHandler = await t.mockImport('./send.js', {
+    './coinBalance.js': {
       sendToSender: () => Promise.resolve()
+    },
+    '../lib/coinRepository.js': {
+      coinRepository: {
+        countBySender: () => Promise.resolve(0),
+        add: () => { calls++; return Promise.resolve() }
+      }
     }
   })
 
-  sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool').then(() => {
+  return sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool').then(() => {
     t.equal(calls, 1)
     t.end()
   })
 })
 
-tap.test('send should send balance to sender if not in dry run mode', t => {
+tap.test('send should send balance to sender if not in dry run mode', async t => {
   let calls = 0
-  const sendHandler = t.mock('./send', {
-    '../lib/coinRepository': {
-      countBySender: () => Promise.resolve(0),
-      add: () => { return Promise.resolve() }
+  const sendHandler = await t.mockImport('./send.js', {
+    '../lib/coinRepository.js': {
+      coinRepository: {
+        countBySender: () => Promise.resolve(0),
+        add: () => { return Promise.resolve() }
+      }
     },
-    './coinBalance': {
+    './coinBalance.js': {
       sendToSender: () => { calls++; return Promise.resolve() }
     }
   })
 
-  sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool').then(() => {
+  return sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool').then(() => {
     t.equal(calls, 1)
     t.end()
   })
 })
 
-tap.test('send should not invoke coin repository if in dry run mode', t => {
+tap.test('send should not invoke coin repository if in dry run mode', async t => {
   let calls = 0
-  const sendHandler = t.mock('./send', {
-    '../lib/coinRepository': {
-      countBySender: () => Promise.resolve(0),
-      add: () => { calls++; return Promise.resolve() }
+  const sendHandler = await t.mockImport('./send.js', {
+    '../lib/coinRepository.js': {
+      coinRepository: {
+        countBySender: () => Promise.resolve(0),
+        add: () => { calls++; return Promise.resolve() }
+      }
     },
-    './coinBalance': {
+    './coinBalance.js': {
       sendToSender: () => Promise.resolve()
     }
   })
 
-  sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool --dry').then(() => {
+  return sendHandler.handle('strazz', 'send 1 to <@U1U605T17|fosco> because he is too cool --dry').then(() => {
     t.equal(calls, 0)
     t.end()
   })

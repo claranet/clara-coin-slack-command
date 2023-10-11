@@ -1,6 +1,6 @@
-const tap = require('tap')
-const handlerFactory = require('./handlerFactory')
-const sendHandler = require('./send')
+import tap from 'tap'
+import { handlerFactory } from './handlerFactory.js'
+import * as sendHandler from './send.js'
 
 tap.test('handlerFactory', t => {
   tap.test('should find the right handler', t => {

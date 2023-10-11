@@ -1,5 +1,5 @@
-const tap = require('tap')
-const sendCommandParser = require('./sendCommandParser')
+import tap from 'tap'
+import { sendCommandParser } from './sendCommandParser.js'
 
 tap.test('sendCommandParser', t => {
   tap.test('should extract receiver and value', t => {

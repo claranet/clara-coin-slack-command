@@ -1,5 +1,5 @@
-const tap = require('tap')
-const slackUtils = require('./slack')
+import tap from 'tap'
+import * as slackUtils from './slack.js'
 
 tap.test('slackUtils', t => {
   tap.test('isSlackUser', t => {
@@ -30,7 +30,7 @@ tap.test('slackUtils', t => {
       t.equal('', slackUtils.getSlackUserName(''))
       t.equal('', slackUtils.getSlackUserName('<@U1234567|>'))
       t.equal('', slackUtils.getSlackUserName(0))
-      t.equal('', slackUtils.getSlackUserName(undefined))
+      t.equal('', slackUtils.getSlackUserName())
       t.end()
     })
     t.end()
@@ -46,7 +46,7 @@ tap.test('slackUtils', t => {
       t.equal('', slackUtils.getSlackChannel(''))
       t.equal('', slackUtils.getSlackChannel('<#C1234567|>'))
       t.equal('', slackUtils.getSlackChannel(0))
-      t.equal('', slackUtils.getSlackChannel(undefined))
+      t.equal('', slackUtils.getSlackChannel())
       t.end()
     })
     t.end()

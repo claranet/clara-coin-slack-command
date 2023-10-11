@@ -1,13 +1,13 @@
-const sendCommandParser = require('./sendCommandParser')
-const coinRepository = require('../lib/coinRepository')
-const coinExchangeFactory = require('../model/coinExchange')
-const config = require('../model/config')
+import { sendCommandParser } from './sendCommandParser.js'
+import { coinRepository } from '../lib/coinRepository.js'
+import { coinExchangeFactory } from '../model/coinExchange.js'
+import { config } from '../model/config.js'
 
-const slackUtils = require('../utils/slack')
-const slackTextResponse = require('../utils/slackTextResponse')
-const sendCommandTextSanitizer = require('./sendCommandTextSanitizer')
+import * as slackUtils from '../utils/slack.js'
+import { slackTextResponsePrivate, slackTextResponsePublic } from '../utils/slackTextResponse.js'
+import { sendCommandTextSanitizer } from './sendCommandTextSanitizer.js'
 
-const coinBalance = require('./coinBalance')
+import * as coinBalance from './coinBalance.js'
 
 const VALID_COMMAND_NAMES = Object.freeze([
   'send',
@@ -26,7 +26,7 @@ const VALID_TO = Object.freeze([
   'à'
 ])
 
-const canHandle = (_sender, rawText) => {
+export const canHandle = (_sender, rawText) => {
   if (!rawText) {
     return false
   }
@@ -56,7 +56,7 @@ const canHandle = (_sender, rawText) => {
   return slackUtils.isSlackUser(receiver)
 }
 
-const handle = async (sender, text, responseUrl) => {
+export const handle = async (sender, text, responseUrl) => {
   const {
     value,
     receivers,
@@ -79,15 +79,15 @@ const handle = async (sender, text, responseUrl) => {
   const validationResult = coinExchange.validateSend()
 
   if (validationResult === coinExchange.VALIDATION_STATUS.NOT_ENOUGH_COINS) {
-    return slackTextResponse.private(`Unfortunately, you don't have enough Clara Coins (${config.TOTAL_COINS - alreadySentCoins}) to thank ${receivers.join(', ')}`)
+    return slackTextResponsePrivate(`Unfortunately, you don't have enough Clara Coins (${config.TOTAL_COINS - alreadySentCoins}) to thank ${receivers.join(', ')}`)
   }
 
   if (validationResult === coinExchange.VALIDATION_STATUS.INVALID_AMOUNT) {
-    return slackTextResponse.private(`You cannot send ${value} Clara Coins.`)
+    return slackTextResponsePrivate(`You cannot send ${value} Clara Coins.`)
   }
 
   if (validationResult === coinExchange.VALIDATION_STATUS.CANNOT_SEND_TO_SELF) {
-    return slackTextResponse.private('You cannot send Clara Coins to yourself.')
+    return slackTextResponsePrivate('You cannot send Clara Coins to yourself.')
   }
 
   if (!dryRun) {
@@ -98,10 +98,5 @@ const handle = async (sender, text, responseUrl) => {
 
   const parsedMessage = message ? ` ${message}` : ''
 
-  return slackTextResponse.public(`Thanks, you sent ${value} Clara Coins to ${receivers.join(', ')}${parsedMessage}.${dryRun ? ' (DRY RUN)' : ''}`)
-}
-
-module.exports = {
-  canHandle,
-  handle
+  return slackTextResponsePublic(`Thanks, you sent ${value} Clara Coins to ${receivers.join(', ')}${parsedMessage}.${dryRun ? ' (DRY RUN)' : ''}`)
 }

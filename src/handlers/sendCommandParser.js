@@ -1,5 +1,5 @@
-const slackUtils = require('../utils/slack')
-const sendCommandTextSanitizer = require('./sendCommandTextSanitizer')
+import * as slackUtils from '../utils/slack.js'
+import { sendCommandTextSanitizer } from './sendCommandTextSanitizer.js'
 
 const getMessage = (firstNotUsernameWordIndex, rest) => {
   if (firstNotUsernameWordIndex === -1) {
@@ -15,7 +15,7 @@ const getMessage = (firstNotUsernameWordIndex, rest) => {
     .join(' ')
 }
 
-module.exports = rawText => {
+export const sendCommandParser = rawText => {
   const text = sendCommandTextSanitizer(rawText)
 
   const parts = text.split(' ')
@@ -29,9 +29,9 @@ module.exports = rawText => {
   ] = parts
 
   const firstNotUsernameWordIndex = rest?.findLastIndex(word => slackUtils.isSlackUser(word)) + 1
-  const maybeRemaingReceivers = firstNotUsernameWordIndex !== -1 ? rest.slice(0, firstNotUsernameWordIndex) : rest
+  const maybeRemaingReceivers = firstNotUsernameWordIndex === -1 ? rest : rest.slice(0, firstNotUsernameWordIndex)
   const message = getMessage(firstNotUsernameWordIndex, rest)
-  const remainingReceivers = maybeRemaingReceivers.filter(slackUtils.isSlackUser)
+  const remainingReceivers = maybeRemaingReceivers.filter((rcv) => slackUtils.isSlackUser(rcv))
 
   const receivers = [receiver, ...remainingReceivers]
     .map(receiver => slackUtils.getSlackUserName(receiver))

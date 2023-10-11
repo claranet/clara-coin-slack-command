@@ -1,5 +1,3 @@
-const config = Object.freeze({
+export const config = Object.freeze({
   TOTAL_COINS: 35
 })
-
-module.exports = config

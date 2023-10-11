@@ -1,6 +1,6 @@
-const assert = require('node:assert')
+import assert from 'node:assert'
 
-const _private = text => {
+export const slackTextResponsePrivate = text => {
   assert(text, 'text is required')
   assert(typeof text === 'string', 'text must be a string')
   return {
@@ -9,16 +9,11 @@ const _private = text => {
   }
 }
 
-const _public = text => {
+export const slackTextResponsePublic = text => {
   assert(text, 'text is required')
   assert(typeof text === 'string', 'text must be a string')
   return {
     text,
     response_type: 'in_channel'
   }
-}
-
-module.exports = {
-  private: _private,
-  public: _public
 }

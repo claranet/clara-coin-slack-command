@@ -1,8 +1,21 @@
 {
-  "extends": ["standard", "plugin:security/recommended"],
+  "extends": ["standard", "plugin:security/recommended", "plugin:unicorn/recommended"],
+  "plugins": ["unicorn"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "globals": {
     "describe": "readonly",
     "test": "readonly",
     "expect": "readonly"
+  },
+  "rules": {
+    "unicorn/prefer-module":"error",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "camelCase"
+      }
+    ]
   }
 }

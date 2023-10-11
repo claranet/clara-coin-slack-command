@@ -1,12 +1,8 @@
-'use strict'
-
-const parser = require('body-parser-for-serverless')
-
-const handlerFactory = require('./src/handlers/handlerFactory')
-
-const slackTextResponse = require('./src/utils/slackTextResponse')
-const coinRepository = require('./src/lib/coinRepository')
-const coinTicketParser = require('./src/lib/coinTicketParser')
+import parser from 'body-parser-for-serverless'
+import { handlerFactory } from './src/handlers/handlerFactory.js'
+import { slackTextResponsePrivate } from './src/utils/slackTextResponse.js'
+import { coinRepository } from './src/lib/coinRepository.js'
+import coinTicketParser from './src/lib/coinTicketParser.js'
 
 const health = async (event) => {
   return {
@@ -18,14 +14,7 @@ const health = async (event) => {
   }
 }
 
-const getResult = async body => {
-  const {
-    text
-  } = body
-
-  const userName = body.user_name
-  const responseUrl = body.response_url
-
+const getResult = async ({ text, user_name: userName, response_url: responseUrl }) => {
   const handler = handlerFactory(userName, text)
 
   if (handler) {
@@ -33,7 +22,7 @@ const getResult = async body => {
     return result
   }
 
-  return slackTextResponse.private(`
+  return slackTextResponsePrivate(`
     Sorry I did not understand your command, try \`/coin help\` to get some help.
     _Original Message:_ \`/coin ${text}\`
   `)
@@ -58,10 +47,10 @@ const send = async (event) => {
         'Content-Type': 'application/json'
       }
     }
-  } catch (err) {
+  } catch (error) {
     return {
       statusCode: 500,
-      body: err.message
+      body: error.message
     }
   }
 }
@@ -92,15 +81,15 @@ const csv = async (event) => {
         'Content-Type': 'text/csv'
       }
     }
-  } catch (err) {
+  } catch (error) {
     return {
       statusCode: 500,
-      body: err.message
+      body: error.message
     }
   }
 }
 
-module.exports.v1 = {
+export const v1 = {
   send,
   health,
   csv

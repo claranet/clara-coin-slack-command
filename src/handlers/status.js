@@ -1,12 +1,12 @@
-const coinRepositoryMjs = require('../lib/coinRepository')
+import { coinRepository } from '../lib/coinRepository.js'
 
-const VALID_COMMAND_NAMES = [
+const VALID_COMMAND_NAMES = new Set([
   'status',
   'stato',
   'statut'
-]
+])
 
-const canHandle = (_sender, rawText) => {
+export const canHandle = (_sender, rawText) => {
   if (!rawText) {
     return false
   }
@@ -18,7 +18,7 @@ const canHandle = (_sender, rawText) => {
     command
   ] = parts
 
-  if (!VALID_COMMAND_NAMES.includes(command)) {
+  if (!VALID_COMMAND_NAMES.has(command)) {
     return false
   }
 
@@ -26,7 +26,7 @@ const canHandle = (_sender, rawText) => {
 }
 
 const sentMessage = sent => {
-  const totalSent = Object.values(sent).reduce((acc, val) => acc + val, 0)
+  const totalSent = Object.values(sent).reduce((accumulator, value) => accumulator + value, 0)
   const formattedSent = Object.entries(sent).map(([name, value]) => ` - *${name}*: ${value}`).join('\n')
 
   if (totalSent === 0) {
@@ -37,7 +37,7 @@ const sentMessage = sent => {
 }
 
 const receivedMessage = received => {
-  const totalReceived = Object.values(received).reduce((acc, val) => acc + val, 0)
+  const totalReceived = Object.values(received).reduce((accumulator, value) => accumulator + value, 0)
   const formattedReceived = Object.entries(received).map(([name, value]) => ` - *${name}*: ${value}`).join('\n')
 
   if (totalReceived === 0) {
@@ -47,10 +47,10 @@ const receivedMessage = received => {
   return `You have received a total of ${totalReceived} Clara Coins as follows: \n${formattedReceived}`
 }
 
-const handle = async (sender) => {
-  const sent = await coinRepositoryMjs.sent(sender)
-  const received = await coinRepositoryMjs.received(sender)
-  const remainingCoins = await coinRepositoryMjs.remainingCoins(sender)
+export const handle = async (sender) => {
+  const sent = await coinRepository.sent(sender)
+  const received = await coinRepository.received(sender)
+  const remainingCoins = await coinRepository.remainingCoins(sender)
 
   return {
     blocks: [
@@ -83,9 +83,4 @@ const handle = async (sender) => {
       }
     ]
   }
-}
-
-module.exports = {
-  canHandle,
-  handle
 }

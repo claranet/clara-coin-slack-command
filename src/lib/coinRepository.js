@@ -1,12 +1,12 @@
-const { v4: uuidv4 } = require('uuid')
-const AWS = require('aws-sdk')
-const config = require('../model/config')
+import { v4 as uuidv4 } from 'uuid'
+import AWS from 'aws-sdk'
+import { config } from '../model/config.js'
 
 const unixTimestamp = () => Math.floor(Date.now() / 1000)
 
 const toArray = (maybeArray = []) => Array.isArray(maybeArray) ? maybeArray : [maybeArray]
 
-const create = (dynamoDb) => {
+const create = (dynamoDatabase) => {
   const singleAdd = async ({ sender, receiver, amount = 1, message = '' }) => {
     const timestamp = unixTimestamp()
     const coin = {
@@ -26,7 +26,7 @@ const create = (dynamoDb) => {
       Item: coin
     }
 
-    await dynamoDb.put(coinInfo).promise()
+    await dynamoDatabase.put(coinInfo).promise()
 
     return coin
   }
@@ -37,26 +37,27 @@ const create = (dynamoDb) => {
   }
 
   const listAll = () => new Promise((resolve, reject) => {
-    const params = {
+    const parameters = {
       TableName: process.env.COINS_TABLE,
       ProjectionExpression: 'id, sentTime, sender, receiver, amount, message'
     }
 
-    const onScan = (err, data) => {
-      if (err) {
-        console.log('Scan failed to load data. Error JSON:', JSON.stringify(err, null, 2))
-        reject(err)
+    const onScan = (error, data) => {
+      if (error) {
+        console.log('Scan failed to load data. Error JSON:', JSON.stringify(error, undefined, 2))
+        reject(error)
       } else {
         console.log('Scan succeeded.')
         resolve(data.Items)
       }
     }
 
-    dynamoDb.scan(params, onScan)
+    dynamoDatabase.scan(parameters, onScan)
   })
 
   const countBySender = async sender => {
     const coins = await listAll()
+    // eslint-disable-next-line unicorn/no-array-reduce
     return coins.filter(coin => coin.sender === sender).reduce((sum, coin) => sum + coin.amount, 0)
   }
 
@@ -67,17 +68,19 @@ const create = (dynamoDb) => {
 
   const sent = async sender => {
     const coins = await listAll()
-    return coins.filter(coin => coin.sender === sender).reduce((acc, coin) => {
-      acc[coin.receiver] = (acc[coin.receiver] || 0) + coin.amount
-      return acc
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return coins.filter(coin => coin.sender === sender).reduce((accumulator, coin) => {
+      accumulator[coin.receiver] = (accumulator[coin.receiver] || 0) + coin.amount
+      return accumulator
     }, {})
   }
 
   const received = async receiver => {
     const coins = await listCoinReceivedBy(receiver)
-    return coins.reduce((acc, coin) => {
-      acc[coin.sender] = (acc[coin.sender] || 0) + coin.amount
-      return acc
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return coins.reduce((accumulator, coin) => {
+      accumulator[coin.sender] = (accumulator[coin.sender] || 0) + coin.amount
+      return accumulator
     }, {})
   }
 
@@ -97,4 +100,4 @@ const create = (dynamoDb) => {
   }
 }
 
-module.exports = create(new AWS.DynamoDB.DocumentClient())
+export const coinRepository = create(new AWS.DynamoDB.DocumentClient())
