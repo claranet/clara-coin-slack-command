@@ -2,7 +2,7 @@ import parser from 'body-parser-for-serverless'
 import { handlerFactory } from './src/handlers/handlerFactory.js'
 import { slackTextResponsePrivate } from './src/utils/slackTextResponse.js'
 import { coinRepository } from './src/lib/coinRepository.js'
-import coinTicketParser from './src/lib/coinTicketParser.js'
+import { coinTicketParser } from './src/lib/coinTicketParser.js'
 
 const health = async (event) => {
   return {
