@@ -1,5 +1,5 @@
-const tap = require('tap')
-const coinTicketParser = require('./coinTicketParser')
+import tap from 'tap'
+import { coinTicketParser } from './coinTicketParser.js'
 
 tap.test('coinTicketParser', t => {
   tap.test('should extract receiver and value', t => {

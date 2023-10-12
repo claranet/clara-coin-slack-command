@@ -1,6 +1,5 @@
-'use strict'
-const tap = require('tap')
-const coinExchangeFactory = require('./coinExchange')
+import tap from 'tap'
+import { coinExchangeFactory } from './coinExchange.js'
 
 tap.test('coinExchange', t => {
   tap.test('should return INVALID_AMOUNT when sending a negative amount of coins', t => {

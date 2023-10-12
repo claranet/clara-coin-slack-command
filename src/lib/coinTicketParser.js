@@ -1,16 +1,15 @@
-module.exports = (rawData) => {
+export const coinTicketParser = (rawData) => {
   return rawData
-    .map(item => {
+    .flatMap(item => {
       const {
         sender,
         receiver,
         amount
       } = item
 
-      return new Array(amount).fill({
+      return Array.from({ length: amount }).fill({
         sender,
         receiver
       })
     })
-    .flat()
 }

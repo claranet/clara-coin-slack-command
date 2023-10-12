@@ -1,11 +1,11 @@
-const VALID_COMMAND_NAMES = [
+const VALID_COMMAND_NAMES = new Set([
   'help',
   'aiuto',
   'aiutami',
   'aide'
-]
+])
 
-const canHandle = (_sender, rawText) => {
+export const canHandle = (_sender, rawText) => {
   if (!rawText) {
     return false
   }
@@ -17,14 +17,14 @@ const canHandle = (_sender, rawText) => {
     command
   ] = parts
 
-  if (!VALID_COMMAND_NAMES.includes(command)) {
+  if (!VALID_COMMAND_NAMES.has(command)) {
     return false
   }
 
   return true
 }
 
-const handle = async (_sender, _text) => {
+export const handle = async (_sender, _text) => {
   return {
     blocks: [
       {
@@ -70,9 +70,4 @@ To learn about the principles and rules of Clara Coin, read Claranet Italy's pla
       }
     ]
   }
-}
-
-module.exports = {
-  canHandle,
-  handle
 }

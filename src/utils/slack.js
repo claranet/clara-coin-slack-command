@@ -1,17 +1,17 @@
-const SLACK_USER_REGEX = /<@\w+\|([.a-zA-Z0-9_-]+)>/gm
-const SLACK_CHANNEL_REGEX = /<#\w+\|([.a-zA-Z0-9_-]+)>/gm
+const SLACK_USER_REGEX = /<@\w+\|([\w.-]+)>/gm
+const SLACK_CHANNEL_REGEX = /<#\w+\|([\w.-]+)>/gm
 
-const isSlackUser = receiver => {
+export const isSlackUser = receiver => {
   const regEx = new RegExp(SLACK_USER_REGEX)
-  return Boolean(regEx.exec(receiver))
+  return regEx.test(receiver)
 }
 
-const isSlackChannel = maybeChannel => {
+export const isSlackChannel = maybeChannel => {
   const regEx = new RegExp(SLACK_CHANNEL_REGEX)
-  return Boolean(regEx.exec(maybeChannel))
+  return regEx.test(maybeChannel)
 }
 
-const getSlackUserName = receiver => {
+export const getSlackUserName = receiver => {
   if (!isSlackUser(receiver)) {
     return ''
   }
@@ -20,18 +20,11 @@ const getSlackUserName = receiver => {
   return match[1]
 }
 
-const getSlackChannel = maybeChannel => {
+export const getSlackChannel = maybeChannel => {
   if (!isSlackChannel(maybeChannel)) {
     return ''
   }
   const regEx = new RegExp(SLACK_CHANNEL_REGEX)
   const match = regEx.exec(maybeChannel)
   return match[1]
-}
-
-module.exports = {
-  isSlackChannel,
-  isSlackUser,
-  getSlackUserName,
-  getSlackChannel
 }

@@ -1,6 +1,6 @@
-const undici = require('undici')
+import * as undici from 'undici'
 
-const sendMessage = async (message, responseUrl) => {
+export const sendMessage = async (message, responseUrl) => {
   try {
     return await undici.request(
       responseUrl,
@@ -9,8 +9,4 @@ const sendMessage = async (message, responseUrl) => {
   } catch (error) {
     console.error(error)
   }
-}
-
-module.exports = {
-  sendMessage
 }

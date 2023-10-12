@@ -5,7 +5,7 @@ const VALIDATION_STATUS = {
   NOT_ENOUGH_COINS: Symbol('NOT_ENOUGH_COINS')
 }
 
-const create = ({
+export const coinExchangeFactory = ({
   sender = '',
   receivers = [],
   amount = 1,
@@ -43,5 +43,3 @@ const create = ({
     VALIDATION_STATUS
   }
 }
-
-module.exports = create

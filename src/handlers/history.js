@@ -1,12 +1,12 @@
-const coinRepositoryMjs = require('../lib/coinRepository')
+import { coinRepository } from '../lib/coinRepository.js'
 
-const VALID_COMMAND_NAMES = [
+const VALID_COMMAND_NAMES = new Set([
   'history',
   'storia',
   'historique'
-]
+])
 
-const canHandle = (_sender, rawText) => {
+export const canHandle = (_sender, rawText) => {
   if (!rawText) {
     return false
   }
@@ -18,7 +18,7 @@ const canHandle = (_sender, rawText) => {
     command
   ] = parts
 
-  if (!VALID_COMMAND_NAMES.includes(command)) {
+  if (!VALID_COMMAND_NAMES.has(command)) {
     return false
   }
 
@@ -74,12 +74,7 @@ You haven’t received any Clara Coins.`
   }
 }
 
-const handle = async (sender, text) => {
-  const coins = await coinRepositoryMjs.listCoinReceivedBy(sender)
+export const handle = async (sender, text) => {
+  const coins = await coinRepository.listCoinReceivedBy(sender)
   return receivedMessage(coins)
-}
-
-module.exports = {
-  canHandle,
-  handle
 }
