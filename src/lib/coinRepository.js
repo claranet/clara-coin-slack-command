@@ -6,7 +6,7 @@ const unixTimestamp = () => Math.floor(Date.now() / 1000)
 
 const toArray = (maybeArray = []) => Array.isArray(maybeArray) ? maybeArray : [maybeArray]
 
-const create = (dynamoDatabase) => {
+const create = (dynamoDb) => {
   const singleAdd = async ({ sender, receiver, amount = 1, message = '' }) => {
     const timestamp = unixTimestamp()
     const coin = {
@@ -26,7 +26,7 @@ const create = (dynamoDatabase) => {
       Item: coin
     }
 
-    await dynamoDatabase.put(coinInfo).promise()
+    await dynamoDb.put(coinInfo).promise()
 
     return coin
   }
@@ -52,7 +52,7 @@ const create = (dynamoDatabase) => {
       }
     }
 
-    dynamoDatabase.scan(parameters, onScan)
+    dynamoDb.scan(parameters, onScan)
   })
 
   const countBySender = async sender => {

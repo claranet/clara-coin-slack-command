@@ -16,6 +16,14 @@
       {
         "case": "camelCase"
       }
+    ],
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "allowList": {
+          "dynamoDb": true
+        }
+      }
     ]
   }
 }
