@@ -7,6 +7,10 @@ Parameters:
     Type: "String"
     Default: "flowing-coin-slack-command"
 
+  ProjectNameShort:
+    Type: "String"
+    Default: "coin-slack"
+
   Stage:
     AllowedValues:
       - dev
@@ -40,15 +44,15 @@ Resources:
     Type: AWS::CodeStarConnections::Connection
     Condition: CreateGitHubConnection
     Properties:
-      ConnectionName: !Sub "${ProjectName}-${Stage}-GithubConnection"
+      ConnectionName: !Sub "${ProjectNameShort}-${Stage}-GithubConnection"
       ProviderType: GitHub
 
   SlackTokenParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "/${ProjectName}/${Stage}/slack-token"
-      Type: "SecureString"
-      Value: "ReplaceMeInTheConsole"
+      Type: "String"
+      Value: "Replace me in the console and change to secure string"
       Description: !Sub "Slack token for the ${ProjectName} service."
 
   IamRoleResourceIdParameter:
@@ -62,7 +66,8 @@ Resources:
   CodeBuildRole:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName: !Join ["-", ["CodeBuildRole", !Ref "ProjectName", !Ref "Stage"]]
+      RoleName:
+        !Join ["-", ["CodeBuildRole", !Ref "ProjectNameShort", !Ref "Stage"]]
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AWSCloudFormationFullAccess
       AssumeRolePolicyDocument:
@@ -77,7 +82,7 @@ Resources:
     Type: "AWS::IAM::Role"
     Properties:
       RoleName:
-        !Join ["-", ["CodePipelineRole", !Ref "ProjectName", !Ref "Stage"]]
+        !Join ["-", ["CodePipelineRole", !Ref "ProjectNameShort", !Ref "Stage"]]
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -88,105 +93,155 @@ Resources:
 
   # This can be restricted more
   CodeBuildPolicy:
-  Type: "AWS::IAM::Policy"
-  Properties:
-    PolicyName:
-      !Join ["-", ["CodeBuildPolicy", !Ref "ProjectName", !Ref "Stage"]]
-    PolicyDocument:
-      Version: "2012-10-17"
-      Statement:
-        - Effect: Allow
-          Action:
-            - s3:GetBucketAcl
-            - s3:PutObject
-            - s3:GetObject
-            - s3:GetBucketLocation
-            - s3:GetObjectVersion
-          Resource:
-            - !Join ["", ["arn:aws:s3:::", !Ref S3, "/*"]]
-            - !Join ["", ["arn:aws:s3:::", !Ref S3]]
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName:
+        !Join ["-", ["CodeBuildPolicy", !Ref "ProjectNameShort", !Ref "Stage"]]
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetBucketAcl
+              - s3:PutObject
+              - s3:GetObject
+              - s3:GetBucketLocation
+              - s3:GetObjectVersion
+            Resource:
+              - !Join ["", ["arn:aws:s3:::", !Ref S3, "/*"]]
+              - !Join ["", ["arn:aws:s3:::", !Ref S3]]
 
-        - Effect: Allow
-          Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-          Resource:
-            - !Join [
-                "",
-                [
-                  "arn:aws:logs:",
-                  !Ref "AWS::Region",
-                  ":",
-                  !Ref "AWS::AccountId",
-                  ":log-group:*",
-                ],
-              ]
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource:
+              - !Join [
+                  "",
+                  [
+                    "arn:aws:logs:",
+                    !Ref "AWS::Region",
+                    ":",
+                    !Ref "AWS::AccountId",
+                    ":log-group:*",
+                    !Ref ProjectNameShort,
+                    "*",
+                  ],
+                ]
 
-        - Effect: Allow
-          Action:
-            - codebuild:CreateReportGroup
-            - codebuild:CreateReport
-            - codebuild:UpdateReport
-            - codebuild:BatchPutCodeCoverages
-            - codebuild:BatchPutTestCases
-          Resource: "*"
+          - Effect: Allow
+            Action:
+              - codebuild:CreateReportGroup
+              - codebuild:CreateReport
+              - codebuild:UpdateReport
+              - codebuild:BatchPutCodeCoverages
+              - codebuild:BatchPutTestCases
+            Resource: !GetAtt BuildDeploy.Arn
 
-        - Effect: Allow
-          Action:
-            - lambda:CreateFunction
-            - lambda:UpdateFunctionCode
-            - lambda:GetFunction
-            - lambda:GetFunctionConfiguration
-            - lambda:UpdateFunctionConfiguration
-          Resource:
-            - !Join [
-                "",
-                [
-                  "arn:aws:lambda:",
-                  !Ref "AWS::Region",
-                  ":",
-                  !Ref "AWS::AccountId",
-                  ":function:*",
-                ],
-              ]
+          - Effect: Allow
+            Action:
+              - lambda:CreateFunction
+              - lambda:UpdateFunctionCode
+              - lambda:GetFunction
+              - lambda:GetFunctionConfiguration
+              - lambda:UpdateFunctionConfiguration
+            Resource:
+              - !Join [
+                  "",
+                  [
+                    "arn:aws:lambda:",
+                    !Ref "AWS::Region",
+                    ":",
+                    !Ref "AWS::AccountId",
+                    ":function:*",
+                    !Ref ProjectName,
+                    "*",
+                  ],
+                ]
+          - Effect: Allow
+            Action:
+              - iam:PassRole
+            Resource:
+              - !GetAtt CodeBuildRole.Arn
 
-        - Effect: Allow
-          Action:
-            - iam:PassRole
-          Resource:
-            - !GetAtt CodeBuildRole.Arn
-
-        - Effect: Allow
-          Action:
-            - cloudformation:CreateStack
-            - cloudformation:DescribeStacks
-            - cloudformation:UpdateStack
-            - cloudformation:DeleteStack
-            - cloudformation:CreateChangeSet
-            - cloudformation:ExecuteChangeSet
-          Resource: "*"
-    Roles:
-      - !Ref CodeBuildRole
+          - Effect: Allow
+            Action:
+              - cloudformation:CreateStack
+              - cloudformation:DescribeStacks
+              - cloudformation:UpdateStack
+              - cloudformation:DeleteStack
+              - cloudformation:CreateChangeSet
+              - cloudformation:ExecuteChangeSet
+            Resource:
+              - !Join [
+                  "",
+                  [
+                    "arn:aws:cloudformation:",
+                    !Ref "AWS::Region",
+                    ":",
+                    !Ref "AWS::AccountId",
+                    ":stack/*",
+                    !Ref ProjectName,
+                    "*",
+                  ],
+                ]
+      Roles:
+        - !Ref CodeBuildRole
 
   CodePipelinePolicy:
     Type: "AWS::IAM::Policy"
     Properties:
       PolicyName:
-        !Join ["-", ["CodePipelinePolicy", !Ref "ProjectName", !Ref "Stage"]]
+        !Join [
+          "-",
+          ["CodePipelinePolicy", !Ref "ProjectNameShort", !Ref "Stage"],
+        ]
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
-          Effect: Allow
-          Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            - s3:putObject
-            - s3:getObject
-            - codebuild:*
-          Resource:
-            - "*"
+          - Effect: Allow
+            Action:
+              - s3:PutObject
+              - s3:GetObject
+            Resource:
+              - !Join ["", ["arn:aws:s3:::", !Ref S3, "/*"]]
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+            Resource:
+              - !Join ["", ["arn:aws:s3:::", !Ref S3]]
+          - Effect: Allow
+            Action:
+              - codebuild:StartBuild
+              - codebuild:BatchGetBuilds
+            Resource:
+              - !GetAtt BuildDeploy.Arn
+          - Effect: Allow
+            Action:
+              - codepipeline:PutJobSuccessResult
+              - codepipeline:PutJobFailureResult
+            Resource: "*"
+
+          - Effect: Allow
+            Action:
+              - iam:PassRole
+            Resource:
+              - !GetAtt CodeBuildRole.Arn
+          - Effect: Allow
+            Action:
+              - codestar-connections:GetConnection
+              - codestar-connections:UseConnection
+              - codestar-connections:ListConnections
+              - codestar-connections:ListInstallationTargets
+              - codestar-connections:GetInstallationUrl
+              - codestar-connections:ListTagsForResource
+            Resource:
+              !If [
+                CreateGitHubConnection,
+                !Ref GitHubConnection,
+                !Ref GitHubConnectionArn,
+              ]
       Roles:
         - !Ref CodePipelineRole
 
@@ -198,8 +253,8 @@ Resources:
           "-",
           [
             !Ref "AWS::AccountId",
-            "codepipeline",
-            !Ref ProjectName,
+            "artifacts",
+            !Ref ProjectNameShort,
             !Ref "Stage",
             !Ref "AWS::Region",
           ],
@@ -208,7 +263,7 @@ Resources:
   BuildDeploy:
     Type: "AWS::CodeBuild::Project"
     Properties:
-      Name: !Join ["-", ["deploy", !Ref "ProjectName", !Ref "Stage"]]
+      Name: !Join ["-", ["deploy", !Ref "ProjectNameShort", !Ref "Stage"]]
       Description: Demo of CodeBuild with CodeDeploy pipeline.
       ServiceRole: !Ref CodeBuildRole
       TimeoutInMinutes: 5
@@ -229,7 +284,8 @@ Resources:
   Pipeline:
     Type: "AWS::CodePipeline::Pipeline"
     Properties:
-      Name: !Join ["-", ["codepipeline", !Ref "ProjectName", !Ref "Stage"]]
+      Name: !Join ["-", ["codepipeline", !Ref "ProjectNameShort", !Ref "Stage"]]
+      PipelineType: V2
       ArtifactStore:
         Location: !Ref S3
         Type: S3
@@ -256,7 +312,7 @@ Resources:
                     !Ref GitHubConnectionArn,
                   ]
               OutputArtifacts:
-                - Name: TheSourceCode
+                - Name: sourcecode
 
         # Stage 2:  Build and Deploy using Serverless Framework
         - Name: BuildDeploy
@@ -264,7 +320,7 @@ Resources:
             - Name: Build-Deploy
               RunOrder: 1
               InputArtifacts:
-                - Name: TheArtifact
+                - Name: sourcecode
               ActionTypeId:
                 Category: Build
                 Owner: AWS
