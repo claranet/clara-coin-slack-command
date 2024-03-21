@@ -172,12 +172,22 @@ Resources:
 
           - Effect: Allow
             Action:
+              - lambda:Get*
+              - lambda:List*
               - lambda:CreateFunction
-              - lambda:UpdateFunctionCode
-              - lambda:GetFunction
-              - lambda:GetFunctionConfiguration
-              - lambda:UpdateFunctionConfiguration
               - lambda:DeleteFunction
+              - lambda:CreateFunction
+              - lambda:DeleteFunction
+              - lambda:UpdateFunctionConfiguration
+              - lambda:UpdateFunctionCode
+              - lambda:PublishVersion
+              - lambda:CreateAlias
+              - lambda:DeleteAlias
+              - lambda:UpdateAlias
+              - lambda:AddPermission
+              - lambda:RemovePermission
+              - lambda:InvokeFunction
+              - lambda:TagResource
             Resource:
               - !Join [
                   "",
@@ -259,9 +269,9 @@ Resources:
               - apigateway:PUT
               - apigateway:PATCH
               - apigateway:DELETE
+              - apigateway:TagResource
             Resource:
-              - !Sub "arn:aws:apigateway:${AWS::Region}::/apis"
-              - !Sub "arn:aws:apigateway:${AWS::Region}::/apis/*"
+              - !Sub "arn:aws:apigateway:${AWS::Region}::/*"
       Roles:
         - !Ref CodeBuildRole
 
