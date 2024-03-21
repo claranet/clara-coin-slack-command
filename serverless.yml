@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   lambdaHashingVersion: 20201221
-  region: eu-west-1
+  region: ${self:custom.region}
   environment:
     COINS_TABLE: ${self:custom.s3.table_name}
     SLACK_TOKEN: ${ssm:${self:custom.env.slack_token_ssm_path}}
@@ -31,6 +31,7 @@ custom:
     slack_token_ssm_path: "${self:custom.parameter_store.base_name}/slack-token"
   iam_role:
     resource_id: "${self:custom.parameter_store.base_name}/resource-id"
+  region: ${env:AWS_REGION, "eu-west-1"}
 
 functions:
   health:
