@@ -102,6 +102,28 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
+              - ssm:DescribeParameters
+              - ssm:GetParameters
+              - ssm:GetParameter
+            Resource:
+              - !Join [
+                  "",
+                  [
+                    "arn:aws:ssm:",
+                    !Ref AWS::Region,
+                    ":",
+                    !Ref AWS::AccountId,
+                    ":parameter",
+                    "/",
+                    !Ref ProjectName,
+                    "/",
+                    !Ref Stage,
+                    "/*",
+                  ],
+                ]
+
+          - Effect: Allow
+            Action:
               - s3:GetBucketAcl
               - s3:PutObject
               - s3:GetObject
@@ -113,9 +135,18 @@ Resources:
 
           - Effect: Allow
             Action:
+              - s3:*
+            Resource:
+              - !Join ["", ["arn:aws:s3:::*", !Ref ProjectNameShort, "*/*"]]
+              - !Join ["", ["arn:aws:s3:::*", !Ref ProjectNameShort, "*"]]
+
+          - Effect: Allow
+            Action:
               - logs:CreateLogGroup
               - logs:CreateLogStream
+              - logs:DeleteLogGroup
               - logs:PutLogEvents
+              - logs:TagResource
             Resource:
               - !Join [
                   "",
@@ -146,6 +177,7 @@ Resources:
               - lambda:GetFunction
               - lambda:GetFunctionConfiguration
               - lambda:UpdateFunctionConfiguration
+              - lambda:DeleteFunction
             Resource:
               - !Join [
                   "",
@@ -164,7 +196,41 @@ Resources:
               - iam:PassRole
             Resource:
               - !GetAtt CodeBuildRole.Arn
-
+          - Effect: Allow
+            Action:
+              - iam:Get*
+              - iam:List*
+              - iam:PassRole
+              - iam:CreateRole
+              - iam:DeleteRole
+              - iam:AttachRolePolicy
+              - iam:DeleteRolePolicy
+              - iam:PutRolePolicy
+              - iam:TagRole
+              - iam:UntagRole
+            Resource:
+              - !Sub "arn:aws:iam::${AWS::AccountId}:role/*${ProjectNameShort}*"
+          - Effect: Allow
+            Action:
+              - dynamodb:CreateTable
+              - dynamodb:CreateTableReplica
+              - dynamodb:CreateGlobalTable
+              - dynamodb:DeleteTable
+              - dynamodb:DeleteGlobalTable
+              - dynamodb:DeleteTableReplica
+              - dynamodb:Describe*
+              - dynamodb:List*
+              - dynamodb:Get*
+              - dynamodb:TagResource
+              - dynamodb:UntagResource
+              - dynamodb:UpdateContinuousBackups
+              - dynamodb:UpdateGlobalTable
+              - dynamodb:UpdateGlobalTableSettings
+              - dynamodb:UpdateTable
+              - dynamodb:UpdateTableReplicaAutoScaling
+              - dynamodb:UpdateTimeToLive
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/*coin*"
           - Effect: Allow
             Action:
               - cloudformation:CreateStack
@@ -186,6 +252,16 @@ Resources:
                     "*",
                   ],
                 ]
+          - Effect: Allow
+            Action:
+              - apigateway:GET
+              - apigateway:POST
+              - apigateway:PUT
+              - apigateway:PATCH
+              - apigateway:DELETE
+            Resource:
+              - !Sub "arn:aws:apigateway:${AWS::Region}::/apis"
+              - !Sub "arn:aws:apigateway:${AWS::Region}::/apis/*"
       Roles:
         - !Ref CodeBuildRole
 
